@@ -100,10 +100,9 @@
             	$.ajax({
             		url:"${pageContext.request.contextPath}/bussiness/getTariff.do",
             		success:function(data){
-            			//alert(typeof data)
             			$(data.tariffList).each(function(){
-            				//alert(this.tariffName)
-            				
+            				var o="<option value='"+this.tariffId+"'>"+this.tariffName+"</option>";
+            				$("select[name='tariffId']").append(o);
             			})
             		}
             	})
