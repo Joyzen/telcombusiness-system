@@ -71,9 +71,10 @@
         	    $("#addDialog").dialog({
         	    	title:'增加业务账号',
         	    	closed:true,
+        	    	onBeforeOpen:initTariff()
         	    })
         	}) 
-			//打开或关闭搜索框
+			//打开或关闭增加面板
         	function oprWin(opr){
             	if(opr=='open'){
             		$("#addDialog").dialog("open");
@@ -97,9 +98,13 @@
             //初始化资费列表
             function initTariff(){
             	$.ajax({
-            		url:"",
-            		success:function(){
-            			
+            		url:"${pageContext.request.contextPath}/bussiness/getTariff.do",
+            		success:function(data){
+            			//alert(typeof data)
+            			$(data.tariffList).each(function(){
+            				//alert(this.tariffName)
+            				
+            			})
             		}
             	})
             }
