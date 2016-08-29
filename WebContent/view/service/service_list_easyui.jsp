@@ -69,7 +69,7 @@
                     title:'业务账号信息显示', 
                     iconCls:'icon-show',//图标 
                     width: 950, 
-                    height: 250, 
+                    height: 300, 
                     nowrap: false, 
                     striped: true, 
                     border: true, 
@@ -82,10 +82,11 @@
                     idField:'bussinessId', 
                     singleSelect:true,//是否单选 
                     pagination:true,//分页控件 
-                    rownumbers:true,//行号 
+                    rownumbers:false,//行号 
                     /* frozenColumns:[[ 
                         {field:'ck',checkbox:true} 
                     ]], */ 
+                    toolbar:"#search"
                 }); 
         		var p = $('#dl').datagrid('getPager'); 
         	    $(p).pagination({
@@ -126,26 +127,65 @@
         		return '空';
         	}
         	function formatOpr(val,row){
-        		var openBtn="<input type='button' value='开通' onclick='setStus(1)'/>";
-        		var pauseBtn="<input type='button' value='暂停' onclick='setStus(0)'/>";
-        		var delBtn="<input type='button' value='删除' onclick='setStus(2)'/>";
-        		var modiBtn="<input type='button' value='修改' onclick='modi()'/>";
+        		var openBtn="<input type='button' class='btn_start' value='开通' onclick='setStus(1,"+row.bussinessId+")'/>";
+        		var pauseBtn="<input type='button' class='btn_pause' value='暂停' onclick='setStus(0,"+row.bussinessId+")'/>";
+        		var delBtn="<input type='button' class='btn_delete' value='删除' onclick='setStus(2,"+row.bussinessId+")'/>";
+        		var modiBtn="<input type='button' class='btn_modify' value='修改' onclick='modi("+row.bussinessId+")'/>";
         		
         		if(row.os.status!='2'){
-        			if(row.os.status!='1'){
+        			if(row.os.status=='1'){
         				return pauseBtn+modiBtn+delBtn;
         			}
-        			if(row.os.status!='0'){
+        			if(row.os.status=='0'){
         				return openBtn+modiBtn+delBtn;
         			}
         		}
         		return '';
         	}
-        	function setStus(status){
-        		
+        	function setStus(status,bussinessId){
+        		$.ajax({
+            		url		:"${pageContext.request.contextPath}/bussiness/updateStatus.do",
+            		data	:{
+            					"bussinessId":bussinessId,
+            					"status":status,
+            		},
+            		success:function(data){
+            			if(data=="success"){
+            				if(status==0){
+            					$("#operate_result_info").html("暂停成功")
+            				}
+            				if(status==1){
+            					$("#operate_result_info").html("开通成功")
+            				}
+            				if(status==2){
+            					$("#operate_result_info").html("删除成功")
+            				}
+            				$("#operate_result_info").css("display","block");
+            				setTimeout("$('#operate_result_info').css('display','none')",1000);
+            				setTimeout("$('#dl').datagrid('reload')",1000);
+            			}
+            		}
+            	})
         	}
         	function modi(){
         		
+        	}
+        	//搜索方法
+        	function doSearch(opr){
+        		if(opr=='none'){
+        			$('#osAccount').val('');
+        			$('#idNumber').val('');
+        			$('#status').val('-1');
+        			$('#dl').datagrid('load');
+        		}
+        		else{
+        			alert("1111")
+	        		$('#dl').datagrid('load',{
+	        			osAccount: $('#osAccount').val(),
+	        			idNumber: $('#idNumber').val(),
+	        			status:$('#status').val(),
+	        		});
+        		}
         	}
         </script>
     </head>
@@ -159,19 +199,20 @@
             <form action="${pageContext.request.contextPath}/bussiness/showDataList.do" method="post">
             	<input id="page" name="currentPage" type="hidden" value=""/>
                 <!--查询-->
-                <div class="search_add">                        
-                    <div>OS 账号：<input name="osAccount" type="text" value="${bussinessPage.queryObj.osAccount }" class="width100 text_search" /></div>                            
+                <div id="search" class="search_add">                        
+                    <div>OS 账号：<input id="osAccount" name="osAccount" type="text" value="${bussinessPage.queryObj.osAccount }" class="width100 text_search" /></div>                            
                     <!-- <div>服务器 IP：<input type="text" value="" class="width100 text_search" /></div> -->
-                    <div>身份证：<input name="idNumber" type="text"  value="${bussinessPage.queryObj.idNumber }" class="text_search" /></div>
+                    <div>身份证：<input id="idNumber" name="idNumber" type="text"  value="${bussinessPage.queryObj.idNumber }" class="text_search" /></div>
                     <div>状态：
-                        <select name="status" class="select_search">
+                        <select id="status" name="status" class="select_search">
                             <option value="-1">全部</option>
                             <option value="1">开通</option>
                             <option value="0">暂停</option>
                             <option value="2">删除</option>
                         </select>
                     </div>
-                    <div><input type="button" value="搜索" class="btn_search" onclick="toPage(1)"/></div>
+                    <div><input type="button" value="搜索" class="btn_search" onclick="doSearch()"/></div>
+                    <div><input type="button" value="搜索全部" class="btn_search_large" onclick="doSearch('none')"/></div>
                     <input type="button" value="增加" class="btn_add" onclick="location.href='${pageContext.request.contextPath}/bussiness/toAdd.do';" />
                 </div>  
                 <!--删除的操作提示-->
@@ -190,7 +231,7 @@
 	                        <th field="osAccount" width="70px" formatter="formatOsAccount">OS 账号</th>
 	                        <th field="status" width="70px" formatter="formatStatus">状态</th>
 	                        <th field="tariffName" width="100px" formatter="formatTariffName" >资费</th>                                                        
-	                        <th field="opr" width="150px" formatter="formatOpr">操作</th>
+	                        <th field="opr" width="200px" formatter="formatOpr">操作</th>
 	                    </tr>
                     </thead>
                 	</table>                
@@ -201,18 +242,6 @@
                 4、删除后，记载删除时间，标示为删除，不能再开通、修改、删除；<br />
                 5、业务账号不设计修改密码功能，由用户自服务功能实现；<br />
                 6、暂停和删除状态的账务账号下属的业务账号不能被开通。</p>
-                </div>                    
-                <!--分页-->
-                <div id="pages">
-                <c:if test="${bussinessPage.page>1}">
-                    <a href="#" onclick="toPage(1)">首页</a>
-        	        <a href="#" onclick="toPage(${bussinessPage.page-1})">上一页</a>
-                </c:if>
-                    <a href="#" class="current_page">第${bussinessPage.page}页/共${bussinessPage.total}页</a>
-                <c:if test="${bussinessPage.page<bussinessPage.total}">
-                    <a href="#" onclick="toPage(${bussinessPage.page+1})">下一页</a>
-                    <a href="#" onclick="toPage(${bussinessPage.total})">末页</a>
-                </c:if>
                 </div>                    
             </form>
         </div>

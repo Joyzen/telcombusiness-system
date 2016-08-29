@@ -167,15 +167,18 @@ public class BussinessAction
 	@RequestMapping("/getJson")
 	@ResponseBody
 	public Map<String, Object> getJsonData(@RequestParam(value="page",defaultValue="1")int page,
-																			 @RequestParam(value="rows",defaultValue="5")int rows){
+																			 @RequestParam(value="rows",defaultValue="5")int rows,
+																			 @RequestParam(value="idNumber",defaultValue="")String idNumber,
+											                                 @RequestParam(value="osAccount",defaultValue="")String osAccount,
+											                                 @RequestParam(value="status",defaultValue="-1")String status){
 		int startPage = (page-1)*rows;
 		PageUtil pageUtil  = new PageUtil();
 		Map map = new HashMap();
 		map.put("startPage", startPage);
 		map.put("pageSize", rows);
-		//map.put("idNumber", idNumber);
-		//map.put("osAccount", osAccount);
-		//map.put("status", status);
+		map.put("idNumber", idNumber);
+		map.put("osAccount", osAccount);
+		map.put("status", status);
 		pageUtil.setQueryObj(map);
 		pageUtil.setPage(page);
 		pageUtil.setRows(rows);
