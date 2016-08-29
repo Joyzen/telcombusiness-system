@@ -34,37 +34,8 @@
                 var r = window.confirm("确定要开通此业务账号吗？");
                 document.getElementById("operate_result_info").style.display = "block";
             }
-            //跳转页面，搜索通用方法
-            function toPage(currentPage){
-            	$("#page").val(currentPage);
-            	$("form").submit();
-            }
-            //设置状态
-            function setStatus(bussinessId,status){
-            	$.post({
-            		url		:"${pageContext.request.contextPath}/bussiness/updateStatus.do",
-            		data	:{
-            					"bussinessId":bussinessId,
-            					"status":status,
-            		},
-            		success:function(data){
-            			if(data=="success"){
-            				if(status==0){
-            					$("#operate_result_info").html("暂停成功")
-            				}
-            				if(status==1){
-            					$("#operate_result_info").html("开通成功")
-            				}
-            				if(status==2){
-            					$("#operate_result_info").html("删除成功")
-            				}
-            				$("#operate_result_info").css("display","block");
-            				setTimeout("toPage(${bussinessPage.page})",1000);
-            			}
-            		}
-            	})
-            }
             $(function(){
+            	//初始化数据表格
             	$('#dl').datagrid({ 
                     title:'业务账号信息显示', 
                     iconCls:'icon-show',//图标 
@@ -95,12 +66,45 @@
         	        beforePageText: '第',//页数文本框前显示的汉字 
         	        afterPageText: '页  /  共 {pages} 页', 
         	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录', 
+        	    });
+        	    //初始化添加窗口
+        	    $("#addDialog").dialog({
+        	    	title:'增加业务账号',
+        	    	closed:true,
         	    })
         	}) 
+			//打开或关闭搜索框
+        	function oprWin(opr){
+            	if(opr=='open'){
+            		$("#addDialog").dialog("open");
+            	}else if(opr=='close'){
+            		$("#addDialog").dialog("close");
+            	}
+            }
+        	
+            //根据身份证查询账务账号
+            function searchAccounts() {
+				$.ajax({
+					url:"${pageContext.request.contextPath}/bussiness/checkIdNumber.do",
+					data:{"idNumber":$("input[name='idNumber']:eq(1)").val()},
+					success:function(data){
+						$("input[name='customerId']").val(data.customerId)
+						$("input[name='customerAccount']").val(data.customerAccount)
+					}
+				})
+            }
             
-            $(function(){
-            	$(".select_search").val(${bussinessPage.queryObj.status });
-            })
+            //初始化资费列表
+            function initTariff(){
+            	$.ajax({
+            		url:"",
+            		success:function(){
+            			
+            		}
+            	})
+            }
+            
+            //easyUI表格数据显示格式化
             function formatCustomerId(val,row){
         		return row.os.customer.customerId;
         	}
@@ -176,10 +180,13 @@
         			$('#osAccount').val('');
         			$('#idNumber').val('');
         			$('#status').val('-1');
-        			$('#dl').datagrid('load');
+        			$('#dl').datagrid('load',{
+	        			osAccount: $('#osAccount').val(),
+	        			idNumber: $('#idNumber').val(),
+	        			status:$('#status').val(),
+	        		});
         		}
         		else{
-        			alert("1111")
 	        		$('#dl').datagrid('load',{
 	        			osAccount: $('#osAccount').val(),
 	        			idNumber: $('#idNumber').val(),
@@ -196,8 +203,6 @@
         <!--导航区域结束-->
         <!--主要区域开始-->
         <div id="main">
-            <form action="${pageContext.request.contextPath}/bussiness/showDataList.do" method="post">
-            	<input id="page" name="currentPage" type="hidden" value=""/>
                 <!--查询-->
                 <div id="search" class="search_add">                        
                     <div>OS 账号：<input id="osAccount" name="osAccount" type="text" value="${bussinessPage.queryObj.osAccount }" class="width100 text_search" /></div>                            
@@ -213,7 +218,7 @@
                     </div>
                     <div><input type="button" value="搜索" class="btn_search" onclick="doSearch()"/></div>
                     <div><input type="button" value="搜索全部" class="btn_search_large" onclick="doSearch('none')"/></div>
-                    <input type="button" value="增加" class="btn_add" onclick="location.href='${pageContext.request.contextPath}/bussiness/toAdd.do';" />
+                    <input type="button" value="增加" class="btn_add" onclick="oprWin('open')" />
                 </div>  
                 <!--删除的操作提示-->
                 <div id="operate_result_info" class="operate_success">
@@ -234,7 +239,64 @@
 	                        <th field="opr" width="200px" formatter="formatOpr">操作</th>
 	                    </tr>
                     </thead>
-                	</table>                
+                	</table>
+                	<!-- 添加对话窗口 -->  
+          <div id="addDialog" class="easyui-dialog">
+            <form action="" method="" class="main_form">
+                <!--内容项-->
+                <div class="text_info clearfix"><span>身份证：</span></div>
+                <div class="input_info">
+                    <input name="idNumber" type="text" value="查询出的结果写入账务账号" class="width180" />
+                    <input type="button" value="查询账务账号" class="btn_search_large" onclick="searchAccounts()" />
+                    <input name="customerId"type="hidden" value=""/>
+                    <span class="required">*</span>
+                    <div class="validate_msg_short">没有此身份证号，请重新录入。</div>
+                </div>
+                <div class="text_info clearfix"><span>账务账号：</span></div>
+                <div class="input_info">
+                    <input name="customerAccount" type="text" value="" onkeyup="searchAccounts(this);" />
+                    <span class="required">*</span>
+                    <div class="validate_msg_long">没有此账务账号，请重新录入。</div>
+                </div>
+                <div class="text_info clearfix"><span>资费类型：</span></div>
+                <div class="input_info">
+                    <select name="tariffId">
+                    <c:forEach items="${tariffList }" var="t">
+                    	<option value="${t.tariffId }">${t.tariffName}</option>
+                    </c:forEach>
+                    </select>                        
+                </div> 
+                <div class="text_info clearfix"><span>服务器 IP：</span></div>
+                <div class="input_info">
+                    <input name="serverIp" type="text" value="192.168.0.23"  />
+                    <span class="required">*</span>
+                    <div class="validate_msg_long">15 长度，符合IP的地址规范</div>
+                </div>                   
+                <div class="text_info clearfix"><span>登录 OS 账号：</span></div>
+                <div class="input_info">
+                    <input name="osAccount" type="text" value="创建即启用，状态为开通"  />
+                    <span class="required">*</span>
+                    <div class="validate_msg_long">8长度以内的字母、数字和下划线的组合</div>
+                </div>
+                <div class="text_info clearfix"><span>密码：</span></div>
+                <div class="input_info">
+                    <input name="osPassword" type="password"  />
+                    <span class="required">*</span>
+                    <div class="validate_msg_long">30长度以内的字母、数字和下划线的组合</div>
+                </div>
+                <div class="text_info clearfix"><span>重复密码：</span></div>
+                <div class="input_info">
+                    <input type="password"  />
+                    <span class="required">*</span>
+                    <div class="validate_msg_long">两次密码必须相同</div>
+                </div>     
+                <!--操作按钮-->
+                <div class="button_info clearfix">
+                    <input type="button" value="保存" class="btn_save" onclick="sub();" />
+                    <input type="button" value="取消" class="btn_save" />
+                </div>
+            </form>
+        </div>              
                 <p>业务说明：<br />
                 1、创建即开通，记载创建时间；<br />
                 2、暂停后，记载暂停时间；<br />
@@ -243,7 +305,6 @@
                 5、业务账号不设计修改密码功能，由用户自服务功能实现；<br />
                 6、暂停和删除状态的账务账号下属的业务账号不能被开通。</p>
                 </div>                    
-            </form>
         </div>
         <!--主要区域结束-->
         <div id="footer">

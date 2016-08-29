@@ -114,6 +114,7 @@ public class BussinessAction
 	public Map<String, Object> checkIdNumber(String idNumber) {
 		Map map = new HashMap<>();
 		map.put("idNumber", idNumber);
+		System.out.println(idNumber);
 		List<Customer> ls = cs.getPageData(map).getData();
 		if(!ls.isEmpty()) {
 			Customer customer = ls.get(0);
@@ -185,5 +186,16 @@ public class BussinessAction
 		Map m = bs.getJsonData(pageUtil);
 		return m;
 	}
+	
+	@RequestMapping("/getTariff")
+	@ResponseBody
+	public Map<String, Object> getOpenedTariff() {
+		Map map = new HashMap<>();
+		map.put("status", "1");
+		List<Tariff>lt = ts.getOpenedTariff(map);
+		map.put("tariffList", lt);
+		return map;
+	}
+	
 	
 }
