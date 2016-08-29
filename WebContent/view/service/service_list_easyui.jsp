@@ -107,6 +107,19 @@
             		}
             	})
             }
+            //增加表单ajax处理
+            function sub(){
+            	$("form").serialize();
+            	$.ajax({
+            		url		:"${pageContext.request.contextPath}/bussiness/add.do",
+            		data	:$("form").serialize(),
+            		success	:function(result){
+            			if(result=='success'){
+            				setTimeout("showResultDiv(true)",3000);
+            			}
+            		}
+            	})
+            }
             
             //easyUI表格数据显示格式化
             function formatCustomerId(val,row){
