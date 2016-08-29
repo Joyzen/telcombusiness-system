@@ -65,10 +65,32 @@
             	})
             }
             $(function(){
+            	$('#dl').datagrid({ 
+                    title:'业务账号信息显示', 
+                    iconCls:'icon-show',//图标 
+                    width: 950, 
+                    height: 250, 
+                    nowrap: false, 
+                    striped: true, 
+                    border: true, 
+                    collapsible:false,//是否可折叠的 
+                    fit: false,//自动大小 
+                    url:'${pageContext.request.contextPath}/bussiness/getJson.do', 
+                    //sortName: 'code', 
+                    //sortOrder: 'desc', 
+                    remoteSort:false,  
+                    idField:'bussinessId', 
+                    singleSelect:true,//是否单选 
+                    pagination:true,//分页控件 
+                    rownumbers:true,//行号 
+                    /* frozenColumns:[[ 
+                        {field:'ck',checkbox:true} 
+                    ]], */ 
+                }); 
         		var p = $('#dl').datagrid('getPager'); 
         	    $(p).pagination({
         	    	pageSize: 5,//每页显示的记录条数，默认为10 
-        	        pageList: [5,10,15],//可以设置每页记录条数的列表 
+        	        pageList: [3,5,10],//可以设置每页记录条数的列表 
         	        beforePageText: '第',//页数文本框前显示的汉字 
         	        afterPageText: '页  /  共 {pages} 页', 
         	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录', 
@@ -103,6 +125,28 @@
         		}
         		return '空';
         	}
+        	function formatOpr(val,row){
+        		var openBtn="<input type='button' value='开通' onclick='setStus(1)'/>";
+        		var pauseBtn="<input type='button' value='暂停' onclick='setStus(0)'/>";
+        		var delBtn="<input type='button' value='删除' onclick='setStus(2)'/>";
+        		var modiBtn="<input type='button' value='修改' onclick='modi()'/>";
+        		
+        		if(row.os.status!='2'){
+        			if(row.os.status!='1'){
+        				return pauseBtn+modiBtn+delBtn;
+        			}
+        			if(row.os.status!='0'){
+        				return openBtn+modiBtn+delBtn;
+        			}
+        		}
+        		return '';
+        	}
+        	function setStus(status){
+        		
+        	}
+        	function modi(){
+        		
+        	}
         </script>
     </head>
     <body>
@@ -136,20 +180,17 @@
                 </div>   
                 <!--数据区域：用表格展示数据-->     
                 <div id="data">            
-                    <table id="dl" title="业务账号信息显示" class="easyui-datagrid" style="width:950px;height:250;"
-                    url="${pageContext.request.contextPath}/bussiness/getJson.do"
-                    idField="id" rownumbers="true" fitColumns="true" singleSelect="true"
-                    pagination="true"  iconCls="icon-save" toolbar="#toolbar">
+                    <table id="dl" class="easyui-datagrid">
                     <thead>
 	                	<tr>
-	                        <th field="bussinessId" width="40px">业务ID</th>
-	                        <th field="customerId" width="40px" formatter="formatCustomerId">账务账号ID</th>
-	                        <th field="idNumber" width="100px" formatter="formatIdNumber">身份证</th>
+	                        <th field="bussinessId" width="70px">业务ID</th>
+	                        <th field="customerId" width="70px" formatter="formatCustomerId">账务账号ID</th>
+	                        <th field="idNumber" width="150px" formatter="formatIdNumber">身份证</th>
 	                        <th field="customerName" width="70px" formatter="formatCustomerName">姓名</th>
 	                        <th field="osAccount" width="70px" formatter="formatOsAccount">OS 账号</th>
-	                        <th field="status" width="30px" formatter="formatStatus">状态</th>
+	                        <th field="status" width="70px" formatter="formatStatus">状态</th>
 	                        <th field="tariffName" width="100px" formatter="formatTariffName" >资费</th>                                                        
-	                        <th field="opr" width="200px"></th>
+	                        <th field="opr" width="150px" formatter="formatOpr">操作</th>
 	                    </tr>
                     </thead>
                 	</table>                
