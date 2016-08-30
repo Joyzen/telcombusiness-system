@@ -24,6 +24,19 @@
                 else
                     detailDiv.style.display = "none";
             }
+            
+            //提示信息显示
+            function showMsg(flag,msg){
+            	$("#operate_result_info").html('');
+            	if(msg!=null&&msg!=''){
+	            	$("#operate_result_info").html(msg);
+            	}
+            	if(flag){
+					$("#operate_result_info").css("display","block");
+            	}else{
+					$("#operate_result_info").css("display","none");
+            	}
+            }
             //删除
             function deleteAccount() {
                 var r = window.confirm("确定要删除此业务账号吗？删除后将不能恢复。");
@@ -49,6 +62,8 @@
                     url:'${pageContext.request.contextPath}/bussiness/getJson.do', 
                     //sortName: 'code', 
                     //sortOrder: 'desc', 
+                    pageSize: 5,//每页显示的记录条数，默认为10 
+        	        pageList: [3,5,10],//可以设置每页记录条数的列表 
                     remoteSort:false,  
                     idField:'bussinessId', 
                     singleSelect:true,//是否单选 
@@ -115,7 +130,10 @@
             		data	:$("form").serialize(),
             		success	:function(result){
             			if(result=='success'){
-            				setTimeout("showResultDiv(true)",3000);
+            				oprWin("close");
+            				showMsg(true,"添加成功")
+            				setTimeout("showMsg(false)",3000);
+            				$("#dl").datagrid("reload");
             			}
             		}
             	})
@@ -257,7 +275,7 @@
 	                    </tr>
                     </thead>
                 	</table>
-                	<!-- 添加对话窗口 -->  
+                	<!-- ----------------------添加对话窗口开始--------------------------- -->  
           <div id="addDialog" class="easyui-dialog">
             <form action="" method="" class="main_form">
                 <!--内容项-->
@@ -313,7 +331,44 @@
                     <input type="button" value="取消" class="btn_save" />
                 </div>
             </form>
-        </div>              
+        </div> 
+        <!-- ----------------------添加对话窗口结束--------------------------- -->   
+        
+        
+        <!-- ----------------------修改对话窗口开始--------------------------- -->   
+        <div id="modiDialog" class="easyui-dialog">
+            <form action="" method="" class="main_form">
+                <!--必填项-->
+                <div class="text_info clearfix"><span>业务账号ID：</span></div>
+                <div class="input_info">
+                    <input type="text" value="1" readonly class="readonly" />
+                </div>
+                <div class="text_info clearfix"><span>OS 账号：</span></div>
+                <div class="input_info">
+                    <input type="text" value="openlab1" readonly class="readonly" />
+                </div>
+                <div class="text_info clearfix"><span>服务器 IP：</span></div>
+                <div class="input_info">
+                    <input type="text" value="192.168.0.23" readonly class="readonly" />
+                </div>
+                <div class="text_info clearfix"><span>资费类型：</span></div>
+                <div class="input_info">
+                    <select class="width150">
+                        <option>包 20 小时</option>
+                        <option>包 40 小时</option>
+                        <option>包 60 小时</option>
+                        <option>包月</option>
+                    </select>
+                    <div class="validate_msg_long">请修改资费类型，或者取消修改操作。</div>                      
+                </div>
+                <!--操作按钮-->
+                <div class="button_info clearfix">
+                    <input type="button" value="保存" class="btn_save" onclick="showResult();" />
+                    <input type="button" value="取消" class="btn_save" />
+                </div>
+            </form>  
+        </div> 
+        <!-- ----------------------修改对话窗口结束--------------------------- -->             
                 <p>业务说明：<br />
                 1、创建即开通，记载创建时间；<br />
                 2、暂停后，记载暂停时间；<br />
