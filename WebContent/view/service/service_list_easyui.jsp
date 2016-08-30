@@ -163,14 +163,14 @@
                 <div class="text_info clearfix"><span>客户姓名：</span></div>
                 <div class="input_info"><input id="customerName" type="text" readonly class="readonly" /></div>
                 <div class="text_info clearfix"><span>身份证号码：</span></div>
-                <div class="input_info"><input id="idNumber" type="text" readonly class="readonly" /></div>
+                <div class="input_info"><input id="idNum" type="text" readonly class="readonly" /></div>
                 <!-- <div class="text_info clearfix"><span>服务器 IP：</span></div>
                 <div class="input_info"><input type="text" value="192.168.0.23" readonly class="readonly" /></div> -->
                 <div class="text_info clearfix"><span>OS 账号：</span></div>
-                <div class="input_info"><input id="osAccount" type="text" readonly class="readonly" /></div>
+                <div class="input_info"><input id="osAcc" type="text" readonly class="readonly" /></div>
                 <div class="text_info clearfix"><span>状态：</span></div>
                 <div class="input_info">
-                    <select id="status" disabled>
+                    <select id="state" disabled>
                         <option value="1">开通</option>
                         <option value="0">暂停</option>
                         <option value="2">删除</option>

@@ -1,5 +1,5 @@
 /**
- * 
+ * service_easyui页面js代码
  */
 //显示角色详细信息
             function showDetail(flag,a) {
@@ -58,6 +58,9 @@
                     /* frozenColumns:[[ 
                         {field:'ck',checkbox:true} 
                     ]], */ 
+                    onDblClickRow:function(row,index){
+                    	detail();
+                    },
                     toolbar:"#search"
                 }); 
         		var p = $('#dl').datagrid('getPager'); 
@@ -73,6 +76,7 @@
         	    $("#addDialog").dialog({
         	    	title:'增加业务账号',
         	    	closed:true,
+        	    	modal:true,
         	    	//onBeforeOpen:initTariff()
         	    })
         	    
@@ -80,7 +84,15 @@
         	    $("#modiDialog").dialog({
         	    	title:'修改业务账号',
         	    	closed:true,
+        	    	modal:true,
         	    	//onBeforeOpen:initTariff()
+        	    })
+
+        	    //初始化详情显示页面
+        	    $("#detailDialog").dialog({
+        	    	title:'详情显示',
+        	    	closed:true,
+        	    	modal:true,
         	    })
         	    initTariff()
         	}) 
@@ -244,9 +256,19 @@
             }
 
             //详情显示页面方法
-            function showDetail(){
+            function detail(){
+            	$("#detailDialog").dialog("open")
                 var row = $("#dl").datagrid("getSelected");
-                $("")
+                $("#bussinessId").val(row.bussinessId)
+                $("#customerId").val(row.os.customer.customerId)
+                $("#customerName").val(row.os.customer.customerName)
+                $("#idNum").val(row.os.customer.idNumber)
+                $("#osAcc").val(row.os.osAccount)
+                $("#state").val(row.os.status)
+                $("#createTime").val(row.createTime)
+                $("#tariffId").val(row.os.tariff.tariffId)
+                $("#tariffName").val(row.os.tariffName)
+                $("#tariffExplain").val(row.os.tariff.tariffExplain)
 
             }
 
