@@ -109,24 +109,18 @@ public class BussinessServiceImpl implements BussinessService
 		int count = bd.countBussiness(map);
 		int total = count%pageUtil.getPageSize()==0?count/pageUtil.getPageSize():(count/pageUtil.getPageSize()+1);
 		List<Bussiness> lb = bd.selectBussinessByCondition(map);
-		/*List<BussinessViewBean> lbv = new ArrayList<BussinessViewBean>();
-		//从bussiness转换到bussinessviewbean
-		for(Bussiness b:lb) {
-			BussinessViewBean bv = new BussinessViewBean();
-			bv.setBussinessId(b.getBussinessId());
-			bv.setCustomerId(b.getOs().getCustomer().getCustomerId());
-			bv.setCustomerName(b.getOs().getCustomer().getCustomerName());
-			bv.setIdNumber(b.getOs().getCustomer().getIdNumber());
-			bv.setOsAccount(b.getOs().getOsAccount());
-			bv.setStatus(b.getOs().getStatus());
-			bv.setTariffName(b.getOs().getTariff().getTariffName());
-			bv.setTariffExplain(b.getOs().getTariff().getTariffExplain());
-			lbv.add(bv);
-		}*/
 		Map<String, Object> m = new HashMap<String, Object>();
 		m.put("total", count);
 		m.put("rows", lb);
 		return m;
+	}
+	
+	public boolean updateTariff(Os os) {
+		int i = od.updateOs(os);
+		if(i>0) {
+			return true;
+		}
+		return false;
 	}
 	
 }

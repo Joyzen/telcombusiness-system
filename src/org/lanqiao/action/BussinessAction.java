@@ -86,8 +86,16 @@ public class BussinessAction
 	}
 	
 	@RequestMapping("/updateTariff")
-	public void updatTariff() {
-		
+	public void updatTariff(Os os,PrintWriter out) {
+		out.flush();
+		boolean b = bs.updateTariff(os);
+		if (b)
+		{
+			out.print("success");
+		}else {
+			out.print("fail");
+		}
+		out.close();
 	}
 	
 	/**

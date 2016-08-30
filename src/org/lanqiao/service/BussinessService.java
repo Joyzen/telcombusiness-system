@@ -49,4 +49,11 @@ public interface BussinessService
 	 */
 	public Map<String, Object> getJsonData(PageUtil pageUtil);
 	
+	/**
+	 * 修改os表记录
+	 * @param os
+	 * @return
+	 */
+	public boolean updateTariff(Os os);
+	
 }

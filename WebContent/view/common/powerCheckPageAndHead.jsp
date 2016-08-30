@@ -58,7 +58,7 @@
             	</c:forEach>
             	<c:forEach items="${sessionScope.admin.powers }" var="power">
             		<c:if test="${power==5 }">
-                <li><a href="${pageContext.request.contextPath }/bussiness/showDataList.do" class="service_${pagePower==5?'on':'off' }"></a></li>
+                <li><a href="${pageContext.request.contextPath }/bussiness/toDataGrid.do" class="service_${pagePower==5?'on':'off' }"></a></li>
                 	</c:if>
             	</c:forEach>
                 <li><a href="../bill/bill_list.html" class="bill_${pagePower==6?'on':'off' }"></a></li>

@@ -14,221 +14,10 @@
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/easyui-lang-zh_CN.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.easyui.min.js"></script>
-        <script language="javascript" type="text/javascript">
-            //显示角色详细信息
-            function showDetail(flag,a) {
-                var detailDiv = a.parentNode.getElementsByTagName("div")[0];
-                if (flag) {
-                    detailDiv.style.display = "block";
-                }
-                else
-                    detailDiv.style.display = "none";
-            }
-            
-            //提示信息显示
-            function showMsg(flag,msg){
-            	$("#operate_result_info").html('');
-            	if(msg!=null&&msg!=''){
-	            	$("#operate_result_info").html(msg);
-            	}
-            	if(flag){
-					$("#operate_result_info").css("display","block");
-            	}else{
-					$("#operate_result_info").css("display","none");
-            	}
-            }
-            //删除
-            function deleteAccount() {
-                var r = window.confirm("确定要删除此业务账号吗？删除后将不能恢复。");
-                document.getElementById("operate_result_info").style.display = "block";
-            }
-            //开通或暂停
-            function setState() {
-                var r = window.confirm("确定要开通此业务账号吗？");
-                document.getElementById("operate_result_info").style.display = "block";
-            }
-            $(function(){
-            	//初始化数据表格
-            	$('#dl').datagrid({ 
-                    title:'业务账号信息显示', 
-                    iconCls:'icon-show',//图标 
-                    width: 950, 
-                    height: 300, 
-                    nowrap: false, 
-                    striped: true, 
-                    border: true, 
-                    collapsible:false,//是否可折叠的 
-                    fit: false,//自动大小 
-                    url:'${pageContext.request.contextPath}/bussiness/getJson.do', 
-                    //sortName: 'code', 
-                    //sortOrder: 'desc', 
-                    pageSize: 5,//每页显示的记录条数，默认为10 
-        	        pageList: [3,5,10],//可以设置每页记录条数的列表 
-                    remoteSort:false,  
-                    idField:'bussinessId', 
-                    singleSelect:true,//是否单选 
-                    pagination:true,//分页控件 
-                    rownumbers:false,//行号 
-                    /* frozenColumns:[[ 
-                        {field:'ck',checkbox:true} 
-                    ]], */ 
-                    toolbar:"#search"
-                }); 
-        		var p = $('#dl').datagrid('getPager'); 
-        	    $(p).pagination({
-        	    	pageSize: 5,//每页显示的记录条数，默认为10 
-        	        pageList: [3,5,10],//可以设置每页记录条数的列表 
-        	        beforePageText: '第',//页数文本框前显示的汉字 
-        	        afterPageText: '页  /  共 {pages} 页', 
-        	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录', 
-        	    });
-        	    //初始化添加窗口
-        	    $("#addDialog").dialog({
-        	    	title:'增加业务账号',
-        	    	closed:true,
-        	    	onBeforeOpen:initTariff()
-        	    })
-        	}) 
-			//打开或关闭增加面板
-        	function oprWin(opr){
-            	if(opr=='open'){
-            		$("#addDialog").dialog("open");
-            	}else if(opr=='close'){
-            		$("#addDialog").dialog("close");
-            	}
-            }
-        	
-            //根据身份证查询账务账号
-            function searchAccounts() {
-				$.ajax({
-					url:"${pageContext.request.contextPath}/bussiness/checkIdNumber.do",
-					data:{"idNumber":$("input[name='idNumber']:eq(1)").val()},
-					success:function(data){
-						$("input[name='customerId']").val(data.customerId)
-						$("input[name='customerAccount']").val(data.customerAccount)
-					}
-				})
-            }
-            
-            //初始化资费列表
-            function initTariff(){
-            	$.ajax({
-            		url:"${pageContext.request.contextPath}/bussiness/getTariff.do",
-            		success:function(data){
-            			$(data.tariffList).each(function(){
-            				var o="<option value='"+this.tariffId+"'>"+this.tariffName+"</option>";
-            				$("select[name='tariffId']").append(o);
-            			})
-            		}
-            	})
-            }
-            //增加表单ajax处理
-            function sub(){
-            	$("form").serialize();
-            	$.ajax({
-            		url		:"${pageContext.request.contextPath}/bussiness/add.do",
-            		data	:$("form").serialize(),
-            		success	:function(result){
-            			if(result=='success'){
-            				oprWin("close");
-            				showMsg(true,"添加成功")
-            				setTimeout("showMsg(false)",3000);
-            				$("#dl").datagrid("reload");
-            			}
-            		}
-            	})
-            }
-            
-            //easyUI表格数据显示格式化
-            function formatCustomerId(val,row){
-        		return row.os.customer.customerId;
-        	}
-        	function formatIdNumber(val,row){
-        		return row.os.customer.idNumber;
-        	}
-        	function formatCustomerName(val,row){
-        		return row.os.customer.customerName;
-        	}
-        	function formatOsAccount(val,row){
-        		return row.os.osAccount;
-        	}
-        	function formatTariffName(val,row){
-        		return row.os.tariff.tariffName;
-        	}
-        	function formatStatus(val,row){
-        		if(row.os.status=='0'){
-        			return '暂停';
-        		}else if(row.os.status=='1'){
-        			return '开通';
-        		}else if(row.os.status=='2'){
-        			return '删除';
-        		}
-        		return '空';
-        	}
-        	function formatOpr(val,row){
-        		var openBtn="<input type='button' class='btn_start' value='开通' onclick='setStus(1,"+row.bussinessId+")'/>";
-        		var pauseBtn="<input type='button' class='btn_pause' value='暂停' onclick='setStus(0,"+row.bussinessId+")'/>";
-        		var delBtn="<input type='button' class='btn_delete' value='删除' onclick='setStus(2,"+row.bussinessId+")'/>";
-        		var modiBtn="<input type='button' class='btn_modify' value='修改' onclick='modi("+row.bussinessId+")'/>";
-        		
-        		if(row.os.status!='2'){
-        			if(row.os.status=='1'){
-        				return pauseBtn+modiBtn+delBtn;
-        			}
-        			if(row.os.status=='0'){
-        				return openBtn+modiBtn+delBtn;
-        			}
-        		}
-        		return '';
-        	}
-        	function setStus(status,bussinessId){
-        		$.ajax({
-            		url		:"${pageContext.request.contextPath}/bussiness/updateStatus.do",
-            		data	:{
-            					"bussinessId":bussinessId,
-            					"status":status,
-            		},
-            		success:function(data){
-            			if(data=="success"){
-            				if(status==0){
-            					$("#operate_result_info").html("暂停成功")
-            				}
-            				if(status==1){
-            					$("#operate_result_info").html("开通成功")
-            				}
-            				if(status==2){
-            					$("#operate_result_info").html("删除成功")
-            				}
-            				$("#operate_result_info").css("display","block");
-            				setTimeout("$('#operate_result_info').css('display','none')",1000);
-            				setTimeout("$('#dl').datagrid('reload')",1000);
-            			}
-            		}
-            	})
-        	}
-        	function modi(){
-        		
-        	}
-        	//搜索方法
-        	function doSearch(opr){
-        		if(opr=='none'){
-        			$('#osAccount').val('');
-        			$('#idNumber').val('');
-        			$('#status').val('-1');
-        			$('#dl').datagrid('load',{
-	        			osAccount: $('#osAccount').val(),
-	        			idNumber: $('#idNumber').val(),
-	        			status:$('#status').val(),
-	        		});
-        		}
-        		else{
-	        		$('#dl').datagrid('load',{
-	        			osAccount: $('#osAccount').val(),
-	        			idNumber: $('#idNumber').val(),
-	        			status:$('#status').val(),
-	        		});
-        		}
-        	}
+        <script language="javascript" type="text/javascript" 
+        src="${pageContext.request.contextPath}/js/service_easyui.js"></script>
+        <script type="text/javascript" language="javascript">
+        	var rootPath="${pageContext.request.contextPath}";
         </script>
     </head>
     <body>
@@ -296,9 +85,6 @@
                 <div class="text_info clearfix"><span>资费类型：</span></div>
                 <div class="input_info">
                     <select name="tariffId">
-                    <c:forEach items="${tariffList }" var="t">
-                    	<option value="${t.tariffId }">${t.tariffName}</option>
-                    </c:forEach>
                     </select>                        
                 </div> 
                 <div class="text_info clearfix"><span>服务器 IP：</span></div>
@@ -337,38 +123,75 @@
         
         <!-- ----------------------修改对话窗口开始--------------------------- -->   
         <div id="modiDialog" class="easyui-dialog">
-            <form action="" method="" class="main_form">
+            <form id="modiForm" action="" method="" class="main_form">
                 <!--必填项-->
                 <div class="text_info clearfix"><span>业务账号ID：</span></div>
                 <div class="input_info">
-                    <input type="text" value="1" readonly class="readonly" />
+                    <input name="bussinessId" type="text" value="" readonly class="readonly" />
                 </div>
                 <div class="text_info clearfix"><span>OS 账号：</span></div>
                 <div class="input_info">
-                    <input type="text" value="openlab1" readonly class="readonly" />
+                    <input name="osAccount" type="text" value="" readonly class="readonly" />
+                    <input name="osId" type="hidden"/>
                 </div>
-                <div class="text_info clearfix"><span>服务器 IP：</span></div>
+                <!-- <div class="text_info clearfix"><span>服务器 IP：</span></div>
                 <div class="input_info">
                     <input type="text" value="192.168.0.23" readonly class="readonly" />
-                </div>
+                </div> -->
                 <div class="text_info clearfix"><span>资费类型：</span></div>
                 <div class="input_info">
-                    <select class="width150">
-                        <option>包 20 小时</option>
-                        <option>包 40 小时</option>
-                        <option>包 60 小时</option>
-                        <option>包月</option>
+                    <select name="tariffId" class="width150">
                     </select>
                     <div class="validate_msg_long">请修改资费类型，或者取消修改操作。</div>                      
                 </div>
                 <!--操作按钮-->
                 <div class="button_info clearfix">
-                    <input type="button" value="保存" class="btn_save" onclick="showResult();" />
+                    <input type="button" value="保存" class="btn_save" onclick="subModi();" />
                     <input type="button" value="取消" class="btn_save" />
                 </div>
             </form>  
         </div> 
-        <!-- ----------------------修改对话窗口结束--------------------------- -->             
+        <!-- ----------------------修改对话窗口结束--------------------------- -->  
+        
+                   
+        <!-- ----------------------详情显示对话窗口开始--------------------------- -->  
+         <div id="detailDialog" class="easyui-dialog">            
+                <div class="text_info clearfix"><span>业务账号ID：</span></div>
+                <div class="input_info"><input id="bussinessId" type="text" readonly class="readonly" /></div>
+                <div class="text_info clearfix"><span>账务账号ID：</span></div>
+                <div class="input_info"><input id="customerId" type="text" readonly class="readonly" /></div>
+                <div class="text_info clearfix"><span>客户姓名：</span></div>
+                <div class="input_info"><input id="customerName" type="text" readonly class="readonly" /></div>
+                <div class="text_info clearfix"><span>身份证号码：</span></div>
+                <div class="input_info"><input id="idNumber" type="text" readonly class="readonly" /></div>
+                <!-- <div class="text_info clearfix"><span>服务器 IP：</span></div>
+                <div class="input_info"><input type="text" value="192.168.0.23" readonly class="readonly" /></div> -->
+                <div class="text_info clearfix"><span>OS 账号：</span></div>
+                <div class="input_info"><input id="osAccount" type="text" readonly class="readonly" /></div>
+                <div class="text_info clearfix"><span>状态：</span></div>
+                <div class="input_info">
+                    <select id="status" disabled>
+                        <option value="1">开通</option>
+                        <option value="0">暂停</option>
+                        <option value="2">删除</option>
+                    </select>                        
+                </div>
+                <div class="text_info clearfix"><span>开通时间：</span></div>
+                <div class="input_info"><input id="createTime" type="text" readonly class="readonly" /></div>
+                <div class="text_info clearfix"><span>资费 ID：</span></div>
+                <div class="input_info"><input id="tariffId" type="text" class="readonly" readonly /></div>
+                <div class="text_info clearfix"><span>资费名称：</span></div>
+                <div class="input_info"><input id="tariffName" type="text" readonly class="width200 readonly" /></div>
+                <div class="text_info clearfix"><span>资费说明：</span></div>
+                <div class="input_info_high">
+                    <textarea id="tariffExplain" class="width300 height70 readonly" readonly></textarea>
+                </div>  
+                <!--操作按钮-->
+                <div class="button_info clearfix">
+                    <input type="button" value="关闭" class="btn_save" onclick="$('#detailDialog').dialog('close')" />
+                </div>
+        </div>
+        <!-- ----------------------详情显示对话窗口结束--------------------------- -->  
                 <p>业务说明：<br />
                 1、创建即开通，记载创建时间；<br />
                 2、暂停后，记载暂停时间；<br />
