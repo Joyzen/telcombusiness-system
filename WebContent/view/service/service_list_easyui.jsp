@@ -12,8 +12,8 @@
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/themes/icon.css"></link>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.0.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
-        <script type="text/javascript" src="${pageContext.request.contextPath}/js/easyui-lang-zh_CN.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.easyui.min.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/easyui-lang-zh_CN.js"></script>
         <script language="javascript" type="text/javascript" 
         src="${pageContext.request.contextPath}/js/service_easyui.js"></script>
         <script type="text/javascript" language="javascript">
@@ -66,11 +66,12 @@
                 	</table>
                 	<!-- ----------------------添加对话窗口开始--------------------------- -->  
           <div id="addDialog" class="easyui-dialog">
-            <form action="" method="" class="main_form">
+            <form id="addForm" action="" method="post" class="main_form">
                 <!--内容项-->
                 <div class="text_info clearfix"><span>身份证：</span></div>
                 <div class="input_info">
-                    <input name="idNumber" type="text" value="查询出的结果写入账务账号" class="width180" />
+                    <input name="idNumber" type="text" value="查询出的结果写入账务账号" class="easyui-validatebox width180"
+                     required="true"/>
                     <input type="button" value="查询账务账号" class="btn_search_large" onclick="searchAccounts()" />
                     <input name="customerId"type="hidden" value=""/>
                     <span class="required">*</span>
@@ -78,7 +79,8 @@
                 </div>
                 <div class="text_info clearfix"><span>账务账号：</span></div>
                 <div class="input_info">
-                    <input name="customerAccount" type="text" value="" onkeyup="searchAccounts(this);" />
+                    <input name="customerAccount" class="easyui-validatebox" type="text" value="" onkeyup="searchAccounts(this);" 
+                    required="true"/>
                     <span class="required">*</span>
                     <div class="validate_msg_long">没有此账务账号，请重新录入。</div>
                 </div>
@@ -95,26 +97,29 @@
                 </div>                   
                 <div class="text_info clearfix"><span>登录 OS 账号：</span></div>
                 <div class="input_info">
-                    <input name="osAccount" type="text" value="创建即启用，状态为开通"  />
+                    <input class="easyui-validatebox" name="osAccount" type="text" 
+                    data-options="required:true,validType:'osAccount'"/>
                     <span class="required">*</span>
                     <div class="validate_msg_long">8长度以内的字母、数字和下划线的组合</div>
                 </div>
                 <div class="text_info clearfix"><span>密码：</span></div>
                 <div class="input_info">
-                    <input name="osPassword" type="password"  />
+                    <input id="osPassword" name="osPassword" type="password" class="easyui-validatebox"
+                    data-options="required:true,validType:'password'" />
                     <span class="required">*</span>
                     <div class="validate_msg_long">30长度以内的字母、数字和下划线的组合</div>
                 </div>
                 <div class="text_info clearfix"><span>重复密码：</span></div>
                 <div class="input_info">
-                    <input type="password"  />
+                    <input class="easyui-validatebox" type="password" 
+                    data-options="required:true" validType="equals['#osPassword']"/>
                     <span class="required">*</span>
                     <div class="validate_msg_long">两次密码必须相同</div>
                 </div>     
                 <!--操作按钮-->
                 <div class="button_info clearfix">
                     <input type="button" value="保存" class="btn_save" onclick="sub();" />
-                    <input type="button" value="取消" class="btn_save" />
+                    <input type="button" value="取消" class="btn_save" onclick="$('#addDialog').dialog('close')"/>
                 </div>
             </form>
         </div> 
@@ -147,7 +152,7 @@
                 <!--操作按钮-->
                 <div class="button_info clearfix">
                     <input type="button" value="保存" class="btn_save" onclick="subModi();" />
-                    <input type="button" value="取消" class="btn_save" />
+                    <input type="button" value="取消" class="btn_save" onclick="$('#modiDialog').dialog('close')"/>
                 </div>
             </form>  
         </div> 

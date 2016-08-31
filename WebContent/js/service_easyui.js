@@ -139,19 +139,20 @@
             }
             //增加表单ajax处理
             function sub(){
-            	$("form").serialize();
-            	$.ajax({
-            		url		:rootPath+"/bussiness/add.do",
-            		data	:$("form").serialize(),
-            		success	:function(result){
-            			if(result=='success'){
-            				oprWin("close");
-            				showMsg(true,"添加成功")
-            				setTimeout("showMsg(false)",3000);
-            				$("#dl").datagrid("reload");
-            			}
-            		}
-            	})
+                    $("#addForm").form("submit",{
+                        url     :rootPath+"/bussiness/add.do",
+                        onSubmit:function(){
+                            return $(this).form('validate');
+                        },
+                        success :function(result){
+                            if(result=='success'){
+                                oprWin("close");
+                                showMsg(true,"添加成功")
+                                setTimeout("showMsg(false)",3000);
+                                $("#dl").datagrid("reload");
+                            }
+                        }
+                    })
             }
             
             //easyUI表格数据显示格式化
@@ -224,8 +225,12 @@
         	//修改操作
         	function modi(){
                 //初始化输入框数据
-        		$("#modiDialog").dialog("open");
                 var row = $("#dl").datagrid("getSelected");
+                if (row==null) {
+                    alert("请至少选择一行")
+                    return false;
+                }
+        		$("#modiDialog").dialog("open");                
                 $("input[name='bussinessId']").val(row.bussinessId);
                 $("input[name='osAccount']:eq(2)").val(row.os.osAccount);
                 $("input[name='osId']").val(row.os.osId);
@@ -259,6 +264,10 @@
             function detail(){
             	$("#detailDialog").dialog("open")
                 var row = $("#dl").datagrid("getSelected");
+                if (row==null) {
+                    alert("请至少选择一行")
+                    return false
+                }
                 $("#bussinessId").val(row.bussinessId)
                 $("#customerId").val(row.os.customer.customerId)
                 $("#customerName").val(row.os.customer.customerName)
@@ -292,3 +301,30 @@
 	        		});
         		}
         	}
+
+            //自定义重写验证函数
+            $.extend($.fn.validatebox.defaults.rules, {
+                osAccount: {
+                    validator: function(value, param){
+                        var regOsAccount=/^([\u4e00-\u9fa5A-Za-z0-9]{1,8})$/;//1到8为的汉字或字母
+                        var b = regOsAccount.test(value)
+                        return b;
+                    },
+                    message:'请输入8长度以内的字母、数字和下划线的组合'
+                },
+                password: {
+                    validator: function(value, param){
+                        var regPassword=/^[A-Za-z0-9_]{3,30}$/;//3到30长度，字母数字下划线组合
+                        var b = regPassword.test(value)
+                        return b;
+                    },
+                    message:'密码格式不正确，请重新输入！'
+                },
+                equals: {    
+                    validator: function(value,param){    
+                        return value == $(param[0]).val();    
+                    },    
+                    message: '两次输入的密码不一致，请重新输入.'   
+                } , 
+            });
+

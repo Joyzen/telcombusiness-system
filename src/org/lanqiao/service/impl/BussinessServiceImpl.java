@@ -98,6 +98,8 @@ public class BussinessServiceImpl implements BussinessService
 		int osId = od.insertOs(os);
 		Bussiness bussiness = new Bussiness();
 		bussiness.setOsId(os.getOsId());
+		bussiness.setCreateTime(
+				new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()));
 		int i = bd.insertBussiness(bussiness);
 		if(i>0) return true;
 		return false;
