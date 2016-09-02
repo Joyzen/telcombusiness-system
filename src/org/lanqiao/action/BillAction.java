@@ -52,8 +52,8 @@ public class BillAction {
 		map.put("customerName", customerName);
 		map.put("year", year);
 		map.put("month", month);
-		map.put("page", page);
-		map.put("rows", rows);
+		map.put("start",start);
+		map.put("rows",rows);
 		billsPage.setQueryObj(map);
 		billsPage.setPage(page);
 		billsPage.setRows(rows);

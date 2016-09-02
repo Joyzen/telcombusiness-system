@@ -26,10 +26,11 @@ public class BillServiceImpl implements BillService {
 	public PageUtil getBills(PageUtil billsPage) {
 		// TODO Auto-generated method stub
 		List<Bills> lb = bd.selectBills((Map)billsPage.getQueryObj());
+		Map m = (Map)billsPage.getQueryObj();
+		System.out.println(m.get("start")+"----"+m.get("rows"));
 		int count = bd.countBills((Map)billsPage.getQueryObj());
-		int total = count%billsPage.getPageSize()==0?count%billsPage.getPageSize():count%billsPage.getPageSize()+1;
 		billsPage.setData(lb);
-		billsPage.setTotal(total);
+		billsPage.setTotal(count);
 		return billsPage;
 	}
 

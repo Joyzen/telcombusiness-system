@@ -109,7 +109,6 @@ public class BussinessServiceImpl implements BussinessService
 	public Map<String, Object> getJsonData(PageUtil pageUtil){
 		Map map = (Map)pageUtil.getQueryObj();
 		int count = bd.countBussiness(map);
-		int total = count%pageUtil.getPageSize()==0?count/pageUtil.getPageSize():(count/pageUtil.getPageSize()+1);
 		List<Bussiness> lb = bd.selectBussinessByCondition(map);
 		Map<String, Object> m = new HashMap<String, Object>();
 		m.put("total", count);

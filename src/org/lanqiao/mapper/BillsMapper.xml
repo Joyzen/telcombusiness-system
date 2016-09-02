@@ -14,7 +14,7 @@
 	<!-- 根据条件搜索Bills -->
 	<select id="selectBills" parameterType="Map"
 		resultMap="BillsResultMap">
-		select * from bills order
+		select * from bills
 		<where>
 			<if test="idNumber!=null and idNumber!=''">
 			and customerId in (select customerId from customer where idNumber=#{idNumber})
@@ -25,19 +25,20 @@
 			<if test="customerName!=null and customerName!=''">
 			and customerId in (select customerId from customer where customerName=#{customerName})
 			</if>
-			<if test="year!=null and year!=''">
-				<if test="month==null or month!=''">
-					and months like concat(#{year},'%')
-				</if>
-			</if>
-			<if test="year!=null and year!=''">
-				<if test="month!=null and month!=''">
-					and months=concat(#{year},#{month})
-				</if>
-			</if>
+			<choose>
+				<when test="year!='' and month!=''">
+					and months like #{year} #{month}
+				</when>
+				<when test="year!='' and month==''">
+					and months like #{year} '%'
+				</when>
+				<when test="year=='' and month!=''">
+					and months like '%' #{month}
+				</when>
+			</choose>
 		</where>
-		by months desc
-		<if test="start!=null and start!='' and pageSize!=null and pageSize!=''">
+		order by months desc
+		<if test="start!=null and rows!=null">
 			limit #{start},#{rows}
 		</if>
 	</select>
@@ -51,7 +52,7 @@
 		</selectKey>
 	</insert>
 	
-	<select id="countBills" parameterType="Map">
+	<select id="countBills" parameterType="Map" resultType="int">
 		select count(*) from bills
 	</select>
 </mapper>
