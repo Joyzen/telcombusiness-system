@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lanqiao.dao.BillDetailDao">
+	<resultMap type="BillDetail" id="BillDetailResultMap">
+		<result property="billDetailId" column="billDetailId"/>
+		<result property="cost" column="cost"/>
+		<result property="months" column="months"/>
+		<result property="timeLong" column="timeLong"/>
+		<association property="os" column="osId" select=
+		"org.lanqiao.dao.OsDao.selectOsById"/>
+	</resultMap>
+	<!-- 根据条件搜索Bills -->
+	<select id="selectBillDetailByCondition" parameterType="Map"
+		resultMap="BillDetailResultMap">
+		select * from billdetail order by months desc
+		<if test="start!=null and start!='' and pageSize!=null and pageSize!=''">
+			limit #{start},#{pageSize}
+		</if>
+	</select>
+	
+	<insert id="insertBillDetail" parameterType="BillDetail" useGeneratedKeys="true" keyProperty="billDetailId" >
+		insert into os(tariffId,cost,months,osId,timeLong)
+		values(#{tariffId},#{cost},#{months},#{osId},#{timeLong})
+		<!-- 返回插入自增的主键 -->
+		<selectKey keyProperty="billDetailId" resultType="int" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+</mapper>

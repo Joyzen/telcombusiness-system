@@ -1,11 +1,13 @@
 package org.lanqiao.bean;
 
+import java.util.Date;
+
 public class OsLogin {
 	private  int osLoginId; 
 	private  String loginIp;
-	private  String loginInTime;
-	private  String loginOutTime;
-	private  int timeLong;
+	private  Date loginInTime;
+	private  Date loginOutTime;
+	private  Date timeLong;
 	private  Os  os;
 	
 	public OsLogin(){
@@ -26,22 +28,22 @@ public class OsLogin {
 	public void setLoginIp(String loginIp) {
 		this.loginIp = loginIp;
 	}
-	public String getLoginInTime() {
+	public Date getLoginInTime() {
 		return loginInTime;
 	}
-	public void setLoginInTime(String loginInTime) {
+	public void setLoginInTime(Date loginInTime) {
 		this.loginInTime = loginInTime;
 	}
-	public String getLoginOutTime() {
+	public Date getLoginOutTime() {
 		return loginOutTime;
 	}
-	public void setLoginOutTime(String loginOutTime) {
+	public void setLoginOutTime(Date loginOutTime) {
 		this.loginOutTime = loginOutTime;
 	}
-	public int getTimeLong() {
+	public Date getTimeLong() {
 		return timeLong;
 	}
-	public void setTimeLong(int timeLong) {
+	public void setTimeLong(Date timeLong) {
 		this.timeLong = timeLong;
 	}
 	public Os getOs() {
