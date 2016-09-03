@@ -58,10 +58,25 @@
                     /* frozenColumns:[[ 
                         {field:'ck',checkbox:true} 
                     ]], */ 
-                    onDblClickRow:function(row,index){
+                    /*onDblClickRow:function(row,index){
                     	detail();
+                    },*/
+                    onDblClickCell:function(index,field,value){
+                    	if(field=='customerName'){
+                    		detail();
+                    	}else if(field=='tariffName'){
+                    		modi();
+                    	}
                     },
-                    toolbar:"#search"
+                    toolbar:"#search",
+                    //行样式编辑器
+                    /*rowStyler:function(index,row){
+            			if (row.os.status=='2'){
+            				return 'background-color:white;color:gray;font-weight:bold;';
+            			}else{
+            				return 'background-color:pink;color:black;font-color:black;';
+            			}
+            		},*/
                 }); 
         		var p = $('#dl').datagrid('getPager'); 
         	    $(p).pagination({
@@ -228,6 +243,10 @@
                 var row = $("#dl").datagrid("getSelected");
                 if (row==null) {
                     alert("请至少选择一行")
+                    return false;
+                }
+                if(row.os.status=='2'){
+                	alert("该业务账号已被删除，不可更改资费")
                     return false;
                 }
         		$("#modiDialog").dialog("open");                
