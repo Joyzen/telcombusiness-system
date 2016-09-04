@@ -13,7 +13,17 @@
 	<!-- 根据条件搜索osLogin -->
 	<select id="selectOsLoginByCondition" parameterType="Map"
 		resultMap="OsLoginResultMap">
-		select * from oslogin order by loginOutTime desc
+		select * from osLogin 
+		<where>
+			<if test="osId!=null and osId!=''">
+				and osId=#{osId}				
+			</if>
+			<if test="customerId!=null and customerId!=''">
+				and osId in
+				(select osId from os where customerId=#{customerId})
+			</if>
+		</where>
+		order by loginOutTime desc
 		<if test="start!=null and start!='' and pageSize!=null and pageSize!=''">
 			limit #{start},#{pageSize}
 		</if>

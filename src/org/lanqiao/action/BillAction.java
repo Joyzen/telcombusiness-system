@@ -1,5 +1,6 @@
 package org.lanqiao.action;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -61,5 +62,23 @@ public class BillAction {
 		map.put("rows", billsPage.getRows());
 		map.put("total", billsPage.getTotal());
 		return map;
+	}
+	
+	@RequestMapping("/showDetailBill")
+	public Map<String,Object> getDetailBill(@RequestParam("customerId")int customerId,
+											  @RequestParam("months")String months,
+											  @RequestParam("cost")double cost,
+											  @RequestParam("page")int page,
+											  @RequestParam("rows")int rows){
+		int start = (page-1)*rows;
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("start", start);
+		map.put("rows", rows);
+		map.put("months", months);
+		map.put("customerId", customerId);
+		Map<String,Object> m = bs.getBillDetail(map);
+		m.put("cost", cost);
+		m.put("months", months);
+		return m;
 	}
 }

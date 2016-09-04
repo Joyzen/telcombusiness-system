@@ -21,4 +21,11 @@ public interface BillDetailDao {
 	 */
 	public int insertBillDetail(BillDetail billDetail);
 	
+	/**
+	 * 查询总记录条数
+	 * @param map
+	 * @return
+	 */
+	public int countBillDetail(Map map);
+	
 }

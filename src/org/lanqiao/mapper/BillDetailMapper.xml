@@ -13,9 +13,16 @@
 	<!-- 根据条件搜索Bills -->
 	<select id="selectBillDetailByCondition" parameterType="Map"
 		resultMap="BillDetailResultMap">
-		select * from billdetail order by months desc
-		<if test="start!=null and start!='' and pageSize!=null and pageSize!=''">
-			limit #{start},#{pageSize}
+		select * from billdetail 
+		<where>
+			<if test="customerId!=null and customerId!=''">
+			and osId in
+			(select osId from os where customerId=#{customerId})
+			</if>
+		</where>
+		order by months desc
+		<if test="start!=null and start!='' and rows!=null and rows!=''">
+			limit #{start},#{rows}
 		</if>
 	</select>
 	
@@ -27,4 +34,15 @@
 			SELECT LAST_INSERT_ID()
 		</selectKey>
 	</insert>
+	
+	<select id="countBillDetail" parameterType="Map" resultType="int">
+		select count(*) from billdetail 
+		<where>
+			<if test="customerId!=null and customerId!=''">
+			and osId in
+			(select osId from os where customerId=#{customerId})
+			</if>
+		</where>
+		order by months desc
+	</select>
 </mapper>
