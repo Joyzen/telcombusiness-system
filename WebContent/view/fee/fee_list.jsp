@@ -158,11 +158,11 @@
                 <!--分页-->
                 <div id="pages">
                 	<c:if test="${tariffPage.page>1 }">
-        	        <a href="${pageContext.request.contextPath }/tariff/showDataList.do?currentPage=${tariffPage.page-1 }">上一页</a>
+        	        <a href="${pageContext.request.contextPath }/tariff/showDataList.do?currentPage=${tariffPage.page-1 }&orderBy=${tariffPage.order }">上一页</a>
                 	</c:if>
                     <a href="" class="current_page">第${tariffPage.page }页/共${tariffPage.total }页</a>
                     <c:if test="${tariffPage.page<tariffPage.total }">
-                    <a href="${pageContext.request.contextPath }/tariff/showDataList.do?currentPage=${tariffPage.page+1 }">下一页</a>
+                    <a href="${pageContext.request.contextPath }/tariff/showDataList.do?currentPage=${tariffPage.page+1 }&orderBy=${tariffPage.order }">下一页</a>
                     </c:if>
                 </div>
             </form>

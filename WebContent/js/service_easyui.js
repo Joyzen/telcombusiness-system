@@ -109,7 +109,7 @@
         	    	closed:true,
         	    	modal:true,
         	    })
-        	    initTariff()
+        	    initTariff();
         	}) 
 			//打开或关闭增加面板
         	function oprWin(opr){
@@ -197,10 +197,11 @@
         		return '空';
         	}
         	function formatOpr(val,row){
+        		var paramsStr=""+row.bussinessId+",\""+row.os.osAccount+"\","+row.os.osId+","+row.os.tariff.tariffId;
         		var openBtn="<input type='button' class='btn_start' value='开通' onclick='setStus(1,"+row.bussinessId+")'/>";
         		var pauseBtn="<input type='button' class='btn_pause' value='暂停' onclick='setStus(0,"+row.bussinessId+")'/>";
         		var delBtn="<input type='button' class='btn_delete' value='删除' onclick='setStus(2,"+row.bussinessId+")'/>";
-        		var modiBtn="<input type='button' class='btn_modify' value='修改' onclick='modi()'/>";
+        		var modiBtn="<input type='button' class='btn_modify' value='修改' onclick='modi("+paramsStr+")'/>";
         		
         		if(row.os.status!='2'){
         			if(row.os.status=='1'){
@@ -238,22 +239,20 @@
             	})
         	}
         	//修改操作
-        	function modi(){
+        	function modi(bussinessId,osAccount,osId,tariffId){
                 //初始化输入框数据
-                var row = $("#dl").datagrid("getSelected");
-                if (row==null) {
-                    alert("请至少选择一行")
-                    return false;
-                }
-                if(row.os.status=='2'){
-                	alert("该业务账号已被删除，不可更改资费")
-                    return false;
-                }
+        		if(bussinessId==''||bussinessId==null){
+        			var row = $("#dl").datagrid("getSelected");
+        			bussinessId=row.bussinesssId
+        			osAccount=row.os.osAccount
+        			osId=row.os.osId;
+        			tariffId=row.os.tariff.tariffId
+        		}
         		$("#modiDialog").dialog("open");                
-                $("input[name='bussinessId']").val(row.bussinessId);
-                $("input[name='osAccount']:eq(2)").val(row.os.osAccount);
-                $("input[name='osId']").val(row.os.osId);
-                $("select[name='tariffId']:eq(1)").val(row.os.tariff.tariffId)
+                $("input[name='bussinessId']").val(bussinessId);
+                $("input[name='osAccount']:eq(2)").val(osAccount);
+                $("input[name='osId']").val(osId);
+                $("select[name='tariffId']:eq(1)").val(tariffId)
             }
 
             //修改提交处理方法
@@ -295,7 +294,7 @@
                 $("#state").val(row.os.status)
                 $("#createTime").val(row.createTime)
                 $("#tariffId").val(row.os.tariff.tariffId)
-                $("#tariffName").val(row.os.tariffName)
+                $("#tariffName").val(row.os.tariff.tariffName)
                 $("#tariffExplain").val(row.os.tariff.tariffExplain)
 
             }

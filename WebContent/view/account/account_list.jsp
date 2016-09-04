@@ -99,7 +99,7 @@
                             <input type="button" value="${c.status!='0'?'暂停':'开通' }" class="btn_pause" onclick="setState(${c.customerId},${c.status!='0'?'0':'1' });" />
                             <input type="button" value="修改" class="btn_modify" onclick=
                             	"location.href='${pageContext.request.contextPath }/customer/toModi.do?customerId=${c.customerId }';" />
-                            <input type="button" value="删除" class="btn_delete" onclick="deleteAccount();" />
+                            <input type="button" value="删除" class="btn_delete" onclick="setState(${c.customerId},2);" />
                         </c:if>
                         </td>
                     </tr>

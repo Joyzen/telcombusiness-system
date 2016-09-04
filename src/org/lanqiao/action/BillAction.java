@@ -62,5 +62,4 @@ public class BillAction {
 		map.put("total", billsPage.getTotal());
 		return map;
 	}
-	
 }
