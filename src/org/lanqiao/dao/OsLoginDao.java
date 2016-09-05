@@ -21,4 +21,11 @@ public interface OsLoginDao {
 	 */
 	public int insertOsLogin(OsLogin osLogin);
 	
+	/**
+	 * 查询总记录条数
+	 * @param map
+	 * @return
+	 */
+	public int countOsLogin(Map map);
+	
 }

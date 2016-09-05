@@ -1,5 +1,6 @@
 package org.lanqiao.bean;
 
+import java.sql.Time;
 import java.util.Date;
 
 public class BillDetail {
@@ -9,7 +10,7 @@ public class BillDetail {
 	private Os os;
 	private int tariffId;
 	private Tariff tariff;
-	private Date timeLong;
+	private Time timeLong;
 	private double cost;
 	private String months;
 	
@@ -76,7 +77,7 @@ public class BillDetail {
 	}
 
 
-	public void setTimeLong(Date timeLong) {
+	public void setTimeLong(Time timeLong) {
 		this.timeLong = timeLong;
 	}
 

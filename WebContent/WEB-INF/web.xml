@@ -70,7 +70,7 @@
     	<servlet-class>org.lanqiao.common.Log4JInitServlet</servlet-class>
     <init-param>
       	<param-name>log4j-properties-location</param-name>
-      	<param-value>/WEB-INF/printSql.properties</param-value>
+      	<param-value>/WEB-INF/log4j.properties</param-value>
     </init-param>
     	<load-on-startup>2</load-on-startup>
   	</servlet>

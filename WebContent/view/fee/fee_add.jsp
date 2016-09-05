@@ -45,7 +45,7 @@
                 	$("#tariff").removeAttr("disabled");
                 	$("#timeTariff").attr("disabled","disabled");
                     inputArray[4].value = "";
-                    inputArray[4].className += " readonly";
+                    inputArray[4].className += "readonly";
                     inputArray[5].className = "width100";
                     inputArray[6].className += " readonly";
                     inputArray[6].value = "";

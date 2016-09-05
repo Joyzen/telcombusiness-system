@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.lanqiao.bean.BillDetail;
+import org.lanqiao.bean.ReportDTO;
 
 public interface BillDetailDao {
 
@@ -27,5 +28,12 @@ public interface BillDetailDao {
 	 * @return
 	 */
 	public int countBillDetail(Map map);
+	
+	/**
+	 * 查询账单排序
+	 * @param order
+	 * @return
+	 */
+	public List<ReportDTO> getReport(String order);
 	
 }

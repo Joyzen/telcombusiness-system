@@ -7,9 +7,18 @@ public class OsLogin {
 	private  String loginIp;
 	private  Date loginInTime;
 	private  Date loginOutTime;
-	private  Date timeLong;
+	private  long timeLong;
 	private  Os  os;
+	private  double cost;
 	
+	public double getCost() {
+		return cost;
+	}
+
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
+
 	public OsLogin(){
 		super();
 	}
@@ -40,10 +49,10 @@ public class OsLogin {
 	public void setLoginOutTime(Date loginOutTime) {
 		this.loginOutTime = loginOutTime;
 	}
-	public Date getTimeLong() {
+	public long getTimeLong() {
 		return timeLong;
 	}
-	public void setTimeLong(Date timeLong) {
+	public void setTimeLong(long timeLong) {
 		this.timeLong = timeLong;
 	}
 	public Os getOs() {

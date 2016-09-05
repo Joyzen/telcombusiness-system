@@ -132,7 +132,10 @@
         		}
         	}
         	function formatDetail(val,row){
-        		return "<a href='#'>详单</a>";
+        		var url=rootPath+"/bill/toDetail.do?idNumber="+
+        				row.customer.idNumber+"&months="+row.months+"&cost="
+        				+row.cost;
+        		return "<a href=\'"+url+"\'>详单</a>";
         	}
         </script>
     </head>
@@ -166,7 +169,7 @@
                     <table id="datalist" class="easyui-datagrid">
                     <thead>
                     <tr>
-                        <th field="billId" width="100px" formatter>账单ID</th>
+                        <th field="billId" width="100px" >账单ID</th>
                         <th field="customerName" width="100px" formatter="formatCustomerName" >姓名</th>
                         <th field="idNumber" width="150px" formatter="formatIdNumber" >身份证</th>
                         <th field="customerAccount" width="100px" formatter="formatCustomerAccount" >账务账号</th>

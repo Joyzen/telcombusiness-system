@@ -1,101 +1,99 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title></title>
-        <link type="text/css" rel="stylesheet" media="all" href="../styles/global.css" />
-        <link type="text/css" rel="stylesheet" media="all" href="../styles/global_color.css" /> 
+        <link type="text/css" rel="stylesheet" media="all" href="${pageContext.request.contextPath }/view/styles/globaleasyUI.css" />
+        <link type="text/css" rel="stylesheet" media="all" href="${pageContext.request.contextPath }/view/styles/global_color.css" />        
+        <link type="text/css" rel="stylesheet" media="all" href="${pageContext.request.contextPath }/css/themes/material/easyui.css" />        
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/themes/icon.css"></link>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.0.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.easyui.min.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/easyui-lang-zh_CN.js"></script>
+        <script type="text/javascript">
+        	var rootPath="${pageContext.request.contextPath}";
+        	function back(){
+        		
+        	}
+        	$(function(){
+        		$("#datalist").datagrid({
+        				title:'详细登录信息',
+        				iconCls:'icon-show',//图标 
+                        width: 950, 
+                        height: 300, 
+                        nowrap: false, 
+                        striped: true, 
+                        border: true, 
+                        collapsible:false,//是否可折叠的 
+                        fit: false,//自动大小 
+                        queryParams:{
+                        	osId:${osId}
+                        },
+                        url: rootPath+"/bill/showLoginDetail.do", 
+                        //sortName: 'code', 
+                        //sortOrder: 'desc', 
+                        pageSize: 5,//每页显示的记录条数，默认为10 
+            	        pageList: [3,5,10],//可以设置每页记录条数的列表 
+                        remoteSort:false,  
+                        idField:'osLoginId', 
+                        singleSelect:true,//是否单选 
+                        pagination:true,//分页控件 
+                        rownumbers:false,//行号 
+                        /* frozenColumns:[[ 
+                            {field:'ck',checkbox:true} 
+                        ]], */ 
+                        /* onDblClickRow:function(row,index){
+                        	detail();
+                        }, */
+                        toolbar:"#show"
+        		})
+        		var p = $('#datalist').datagrid('getPager'); 
+        	    $(p).pagination({
+        	        beforePageText: '第',//页数文本框前显示的汉字 
+        	        afterPageText: '页  /  共 {pages} 页', 
+        	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录', 
+        	    });
+        	})
+        	function formatTariffName(val,row){
+        		return row.os.tariff.tariffName;
+        	}
+        </script>
     </head>
-    <body onload="initialYearAndMonth();">
+    <body>
         <!--Logo区域开始-->
-        <div id="header">
-            <img src="../images/logo.png" alt="logo" class="left"/>
-            <a href="#">[退出]</a>            
-        </div>
-        <!--Logo区域结束-->
-        <!--导航区域开始-->
-        <div id="navi">                        
-            <ul id="menu">
-                <li><a href="../index.html" class="index_off"></a></li>
-                <li><a href="../role/role_list.html" class="role_off"></a></li>
-                <li><a href="../admin/admin_list.html" class="admin_off"></a></li>
-                <li><a href="../fee/fee_list.html" class="fee_off"></a></li>
-                <li><a href="../account/account_list.html" class="account_off"></a></li>
-                <li><a href="../service/service_list.html" class="service_off"></a></li>
-                <li><a href="../bill/bill_list.html" class="bill_on"></a></li>
-                <li><a href="../report/report_list.html" class="report_off"></a></li>
-                <li><a href="../user/user_info.html" class="information_off"></a></li>
-                <li><a href="../user/user_modi_pwd.html" class="password_off"></a></li>
-            </ul>            
-        </div>
+        <c:set var="pagePower" value="6" />
+        <%@include file= "/view/common/powerCheckPageAndHead.jsp" %>
         <!--导航区域结束-->
         <!--主要区域开始-->
         <div id="main">
             <form action="" method="">
                 <!--查询-->
-                <div class="search_add">                        
-                    <div>账务账号：<span class="readonly width70">admin1</span></div>                            
-                    <div>OS 账号：<span class="readonly width100">openlab1</span></div>
-                    <div>服务器 IP：<span class="readonly width100">192.168.0.20</span></div>
-                    <div>计费时间：<span class="readonly width70">2013年8月</span></div>
-                    <div>费用：<span class="readonly width70">34.78</span></div>
-                    <input type="button" value="返回" class="btn_add" onclick="location.href='bill_item.html';" />
+                <div id="show" class="search_add">                        
+                    <div>账务账号：<span id="customerAccount" class="readonly width70">${customerAccount }</span></div>                            
+                    <div>OS 账号：<span id="osAccount" class="readonly width100">${osAccount }</span></div>
+                    <div>计费时间：<span id="months" class="readonly width70">${cost }</span></div>
+                    <div>费用：<span id="cost" class="readonly width70">${months }</span></div>
+                    <input type="button" value="返回" class="btn_add" onclick="back()" />
                 </div>  
                 <!--数据区域：用表格展示数据-->     
                 <div id="data">            
                     <table id="datalist">
+                    <thead>
                         <tr>
-                            <th class="width150">客户登录 IP</th>
-                            <th class="width150">登入时刻</th>
-                            <th class="width150">登出时刻</th>
-                            <th class="width100">时长（秒）</th>
-                            <th class="width150">费用</th>
-                            <th>资费</th>
+                            <th width="150" field="osLoginId">登录 表ID</th>
+                            <th width="150" field="loginInTime">登入时刻</th>
+                            <th width="150" field="loginOutTime">登出时刻</th>
+                            <th width="150" field="timeLong">时长（秒）</th>
+                            <th width="150" field="cost">费用</th>
+                            <th width="70" field="tariffName" formatter="formatTariffName">资费</th>
                         </tr>
-                        <tr>
-                            <td>192.168.100.100</td>
-                            <td>2013/01/01 12:12:12</td>
-                            <td>2013/01/01 12:12:22</td>
-                            <td>10</td>
-                            <td>0</td>
-                            <td>包 20 小时</td>
-                        </tr>
-                        <tr>
-                            <td>192.168.100.100</td>
-                            <td>2013/01/01 12:12:12</td>
-                            <td>2013/01/01 12:12:22</td>
-                            <td>10</td>
-                            <td>0</td>
-                            <td>包 20 小时</td>
-                        </tr>
-                        <tr>
-                            <td>192.168.100.100</td>
-                            <td>2013/01/01 12:12:12</td>
-                            <td>2013/01/01 12:12:22</td>
-                            <td>10</td>
-                            <td>0</td>
-                            <td>包 20 小时</td>
-                        </tr>
-                        <tr>
-                            <td>192.168.100.100</td>
-                            <td>2013/01/01 12:12:12</td>
-                            <td>2013/01/01 12:12:22</td>
-                            <td>10</td>
-                            <td>0.45</td>
-                            <td>包 20 小时</td>
-                        </tr>
+                    </thead>
                     </table>
                 </div>
-                <!--分页-->
-                <div id="pages">
-        	        <a href="#">上一页</a>
-                    <a href="#" class="current_page">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
-                    <a href="#">4</a>
-                    <a href="#">5</a>
-                    <a href="#">下一页</a>
-                </div>                    
             </form>
         </div>
         <!--主要区域结束-->

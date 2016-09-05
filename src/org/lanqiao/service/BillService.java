@@ -21,6 +21,6 @@ public interface BillService {
 	/**
 	 * 获取详细登陆数据
 	 */
-	public PageUtil getOsLogin(PageUtil osLoginPage);
+	public Map<String,Object> getOsLogin(Map<String,Object> map);
 	
 }
