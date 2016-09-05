@@ -34,6 +34,6 @@ public interface BillDetailDao {
 	 * @param order
 	 * @return
 	 */
-	public List<ReportDTO> getReport(String order);
+	public List<ReportDTO> getReport(Map map);
 	
 }

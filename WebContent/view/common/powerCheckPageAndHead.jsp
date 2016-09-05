@@ -66,7 +66,11 @@
                 <li><a href="${pageContext.request.contextPath }/bill/toBills.do" class="bill_${pagePower==6?'on':'off' }"></a></li>
                 	</c:if>
             	</c:forEach>
-                <li><a href="../report/report_list.html" class="report_${pagePower==7?'on':'off' }"></a></li>
+            	<c:forEach items="${sessionScope.admin.powers }" var="power">
+            		<c:if test="${power==7 }">
+                <li><a href="${pageContext.request.contextPath }/bill/toReport.do" class="report_${pagePower==7?'on':'off' }"></a></li>
+                	</c:if>
+            	</c:forEach>
                 <li><a href="${pageContext.request.contextPath }/admin/info.do" class="information_${pagePower==8?'on':'off' }"></a></li>
                 <li><a href="${pageContext.request.contextPath }/admin/modi.do" class="password_${pagePower==9?'on':'off' }"></a></li>
             </ul>            

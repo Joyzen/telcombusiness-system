@@ -177,4 +177,14 @@ public class BillAction {
 		Map m = bs.getOsLogin(map);
 		return m;
 	}
+	
+	/**
+	 * 指向账单页面
+	 * @return
+	 */
+	@RequestMapping("/toReport")
+	public String toReport(){
+		return "report/report_list";
+	}
+	
 }

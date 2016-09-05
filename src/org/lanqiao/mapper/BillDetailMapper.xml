@@ -10,6 +10,13 @@
 		<association property="os" column="osId" select=
 		"org.lanqiao.dao.OsDao.selectOsById"/>
 	</resultMap>
+	<!-- 报表查询数据Map -->
+	<resultMap type="ReportDTO" id="ReportDTO">
+		<result property="timeLong" column="timeLong" javaType="java.sql.Time"
+		jdbcType="Time"/>
+		<association property="customer" column="customerId" select=
+		"org.lanqiao.dao.CustomerDao.selectCustomerByCustomerId"/>
+	</resultMap>
 	<!-- 根据条件搜索Bills -->
 	<select id="selectBillDetailByCondition" parameterType="Map"
 		resultMap="BillDetailResultMap">
@@ -44,5 +51,11 @@
 			</if>
 		</where>
 		order by months desc
+	</select>
+	<select id="getReport" parameterType="Map" resultMap="ReportDTO">
+		SELECT c.customerId as customerId,
+		SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(o.loginOutTime,o.loginInTime)))) AS timeLong 
+		FROM oslogin o,os os,customer c WHERE o.osId=os.osId AND os.customerId=c.customerId
+ 		GROUP BY c.customerId
 	</select>
 </mapper>
