@@ -187,4 +187,28 @@ public class BillAction {
 		return "report/report_list";
 	}
 	
+	/**
+	 * 处理报表数据请求
+	 * @return
+	 */
+	@RequestMapping("/showReport")
+	@ResponseBody
+	public Map<String,Object> showReport(@RequestParam("page")int page,
+										   @RequestParam("rows")int rows,
+										   @RequestParam(value="order",defaultValue="")String order){
+		int start = (page-1)*rows;	
+		Map<String,Object> map = new HashedMap();
+		if(!"customer".equals(order)){	
+			map.put("start", start);
+			map.put("rows", rows);			
+		}
+		map.put("order", order);	
+		Map<String,Object> m = bs.getReport(map);
+		if("customer".equals(order)){
+			m.put("total", 3);
+		}
+		return m;		
+		
+	}
+	
 }

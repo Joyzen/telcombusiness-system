@@ -13,6 +13,8 @@ import org.lanqiao.bean.Bills;
 import org.lanqiao.bean.Customer;
 import org.lanqiao.bean.OsLogin;
 import org.lanqiao.bean.PageUtil;
+import org.lanqiao.bean.ReportDTO;
+import org.lanqiao.bean.TariffRateDTO;
 import org.lanqiao.dao.BillDetailDao;
 import org.lanqiao.dao.BillsDao;
 import org.lanqiao.dao.CustomerDao;
@@ -82,6 +84,26 @@ public class BillServiceImpl implements BillService {
 		m.put("rows", lol);
 		m.put("total", total);
 		return m;
+	}
+	
+	@Override
+	public Map<String,Object> getReport(Map<String,Object> map){
+		String order = (String)map.get("order");
+		if("tariff".equals(order)){
+			int total = bdd.countTariffRate(map);
+			List<TariffRateDTO> lt = bdd.getTariffRate(map);
+			Map<String,Object> tm = new HashMap<String,Object>();
+			tm.put("rows", lt);
+			tm.put("total", total);
+			return tm;
+		}else{
+			List<ReportDTO> lr = bdd.getReport(map);
+			int total = bdd.countReport(map);
+			Map<String,Object> m = new HashMap<String,Object>();
+			m.put("rows", lr);
+			m.put("total", total);
+			return m;
+		}
 	}
 
 }

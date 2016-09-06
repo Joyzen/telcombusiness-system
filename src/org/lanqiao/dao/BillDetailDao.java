@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.lanqiao.bean.BillDetail;
 import org.lanqiao.bean.ReportDTO;
+import org.lanqiao.bean.TariffRateDTO;
 
 public interface BillDetailDao {
 
@@ -35,5 +36,26 @@ public interface BillDetailDao {
 	 * @return
 	 */
 	public List<ReportDTO> getReport(Map map);
+	
+	/**
+	 * 查询总记录条数
+	 * @param map
+	 * @return
+	 */
+	public int countReport(Map map);
+	
+	/**
+	 * 查询资费排序
+	 * @param map
+	 * @return
+	 */
+	public List<TariffRateDTO> getTariffRate(Map map);
+	
+	/**
+	 * 统计总记录条数
+	 * @param map
+	 * @return
+	 */
+	public int countTariffRate(Map map);
 	
 }

@@ -23,4 +23,11 @@ public interface BillService {
 	 */
 	public Map<String,Object> getOsLogin(Map<String,Object> map);
 	
+	/**
+	 * 查询报表数据
+	 * @param map
+	 * @return
+	 */
+	public Map<String,Object> getReport(Map<String,Object> map);
+	
 }

@@ -15,6 +15,7 @@
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.easyui.min.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/easyui-lang-zh_CN.js"></script>
         <script language="javascript" type="text/javascript">
+        	var rootPath="${pageContext.request.contextPath}";
 	        function changeTab(e,ulObj) {                
 	            var obj = e.srcElement || e.target;
 	            if (obj.nodeName == "A") {
@@ -22,6 +23,18 @@
 	                for (var i = 0; i < links.length; i++) {
 	                    if (links[i].innerHTML == obj.innerHTML) {
 	                        links[i].className = "tab_on";
+	                        var order='';
+	                        if(i==0){
+	                        	order='timeLong';
+	                        }else if(i==1){
+	                        	order='customer'
+	                        }else if(i==2){
+	                        	order='tariff'
+	                        }
+	                        initTable(i);
+	                        $("#datalist").datagrid("load",{
+	                        	order:order,
+	                        })
 	                    }
 	                    else {
 	                        links[i].className = "tab_out";
@@ -40,7 +53,7 @@
                     border: true, 
                     collapsible:false,//是否可折叠的 
                     fit: false,//自动大小 
-                    url:'', 
+                    url:rootPath+'/bill/showReport.do', 
                     //sortName: 'code', 
                     //sortOrder: 'desc', 
                     pageSize: 5,//每页显示的记录条数，默认为10 
@@ -64,7 +77,67 @@
         	        afterPageText: '页  /  共 {pages} 页', 
         	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录', 
         	    });
+        	    initTable(0);
             })
+            function formatTimeLong(val,row){
+            	var timeLong=row.timeLong;
+            	h=Math.floor(timeLong/(60*60));
+            	m=Math.floor((timeLong-h*60*60)/60);
+            	s=timeLong%60;
+            	return h+'小时'+m+'分'+s+'秒'
+            }
+            function initTable(i){
+            	if(i==0){
+            		init0(true);
+            		init1(true);
+            		init2(false);
+            	}else if(i==1){
+            		init0(true);
+            		init1(false);
+            		init2(false);
+            	}else if(i==2){
+            		init0(false);
+            		init1(false);
+            		init2(true);
+            	}
+            }
+            function init0(flag){
+            	if(flag){
+            		$("#datalist").datagrid("showColumn","customerId")
+            		$("#datalist").datagrid("showColumn","customerAccount")
+            		$("#datalist").datagrid("showColumn","customerName")
+            		$("#datalist").datagrid("showColumn","idNumber")
+            		$("#datalist").datagrid("showColumn","phone")
+            		$("#datalist").datagrid("showColumn","timeLong")
+            	}else{
+            		$("#datalist").datagrid("hideColumn","customerId")
+            		$("#datalist").datagrid("hideColumn","customerAccount")
+            		$("#datalist").datagrid("hideColumn","customerName")
+            		$("#datalist").datagrid("hideColumn","idNumber")
+            		$("#datalist").datagrid("hideColumn","phone")
+            		$("#datalist").datagrid("hideColumn","timeLong")
+            	}
+            }
+            function init1(flag){
+            	if(flag){
+            		$("#datalist").datagrid("showColumn","months")
+            	}else{
+            		$("#datalist").datagrid("hideColumn","months")
+            	}
+            }
+            function init2(flag){
+            	if(flag){
+            		$("#datalist").datagrid("showColumn","tariffId")
+            		$("#datalist").datagrid("showColumn","tariffName")
+            		$("#datalist").datagrid("showColumn","tariffType")
+            		$("#datalist").datagrid("showColumn","times")
+            	}else{
+            		$("#datalist").datagrid("hideColumn","tariffId")
+            		$("#datalist").datagrid("hideColumn","tariffName")
+            		$("#datalist").datagrid("hideColumn","tariffType")
+            		$("#datalist").datagrid("hideColumn","times")
+            	}
+            }
         </script>
     </head>
     <body>
@@ -93,7 +166,11 @@
                             <th field="idNumber" class="width200">身份证号码</th>
                             <th field="phone">电话</th>
                             <th field="months">月份</th>
-                            <th field="timeLong">累积时长</th>
+                            <th field="timeLong" formatter="formatTimeLong">累积时长</th>
+                            <th field="tariffId">资费ID</th>
+                            <th field="tariffName">资费名称</th>
+                            <th field="tariffType">资费类型</th>
+                            <th field="times">资费使用率（次）</th>
                         </tr>                      
                     </thead>
                     </table>
