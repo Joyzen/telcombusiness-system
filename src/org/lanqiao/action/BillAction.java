@@ -208,7 +208,13 @@ public class BillAction {
 			m.put("total", 3);
 		}
 		return m;		
-		
+	}
+	
+	@RequestMapping("/getHighcharts")
+	@ResponseBody
+	public List<List> getHighcharts(){
+		List<List> ll = bs.getHighcharts();
+		return ll;
 	}
 	
 }

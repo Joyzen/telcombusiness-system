@@ -2,6 +2,7 @@ package org.lanqiao.service.impl;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,6 +105,18 @@ public class BillServiceImpl implements BillService {
 			m.put("total", total);
 			return m;
 		}
+	}
+	
+	public List<List> getHighcharts(){
+		List<ReportDTO> lr = bdd.getReport(null);
+		List<List> ll = new ArrayList<List>();
+		for(ReportDTO r:lr){
+			List l = new ArrayList();
+			l.add(r.getCustomerName());
+			l.add(r.getTimeLong());
+			ll.add(l);
+		}
+		return ll;
 	}
 
 }

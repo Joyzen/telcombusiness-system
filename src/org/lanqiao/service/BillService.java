@@ -1,5 +1,6 @@
 package org.lanqiao.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.lanqiao.bean.PageUtil;
@@ -29,5 +30,11 @@ public interface BillService {
 	 * @return
 	 */
 	public Map<String,Object> getReport(Map<String,Object> map);
+	
+	/**
+	 * 获取Highcharts显示数据
+	 * @return
+	 */
+	public List<List> getHighcharts();
 	
 }

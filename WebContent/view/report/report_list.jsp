@@ -14,6 +14,7 @@
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.easyui.min.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/easyui-lang-zh_CN.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/Highcharts/highcharts.js"></script>
         <script language="javascript" type="text/javascript">
         	var rootPath="${pageContext.request.contextPath}";
 	        function changeTab(e,ulObj) {                
@@ -78,6 +79,12 @@
         	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录', 
         	    });
         	    initTable(0);
+        	    $("#container").dialog({
+        	    	title:'用户时长排序',
+        	    	closed:true,
+        	    	modal:true,
+        	    	//onBeforeOpen:initTariff()
+        	    })
             })
             function formatTimeLong(val,row){
             	var timeLong=row.timeLong;
@@ -138,6 +145,67 @@
             		$("#datalist").datagrid("hideColumn","times")
             	}
             }
+            /*************************************************************/
+            $(function () {
+            	var url=rootPath+'/bill/getHighcharts.do'
+    			$.getJSON(url, function (data) {
+		        $('#container').highcharts({
+		            chart: {
+		                zoomType: 'x'
+		            },
+		            title: {
+		                text: '用户时长排序'
+		            },
+		            subtitle: {
+		                text: document.ontouchstart === undefined ?
+		                        'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+		            },
+		            xAxis: {
+		                type: 'linear'
+		            },
+		            yAxis: {
+		                title: {
+		                    text: '使用时长（秒）'
+		                }
+		            },
+		            legend: {
+		                enabled: false
+		            },
+		            plotOptions: {
+		                area: {
+		                    fillColor: {
+		                        linearGradient: {
+		                            x1: 0,
+		                            y1: 0,
+		                            x2: 0,
+		                            y2: 1
+		                        },
+		                        stops: [
+		                            [0, Highcharts.getOptions().colors[0]],
+		                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+		                        ]
+		                    },
+		                    marker: {
+		                        radius: 2
+		                    },
+		                    lineWidth: 1,
+		                    states: {
+		                        hover: {
+		                            lineWidth: 1
+		                        }
+		                    },
+		                    threshold: null
+		                }
+		            },
+		            series: [{
+		                type: 'area',
+		                name: '时长',
+		                data: data
+		            }]
+		        });
+		    });
+		});
+            /*************************************************************/
         </script>
     </head>
     <body>
@@ -153,6 +221,7 @@
                     <li><a href="#" class="tab_out" title="每台服务器上累计时长最高的前三名客户">时长排行榜</a></li>
                     <li><a href="#" class="tab_out" title="每台服务器每种资费标准的使用次数">资费使用率</a></li>
                 </ul>
+                <button onclick="$('#container').dialog('open')">查看表格数据</button>
             </div>            
             <div class="report_box">
                 <!--数据区域：用表格展示数据-->
@@ -177,6 +246,8 @@
                 </div>
             </div>
         </div>
+        <!-- Highcharts图表显示窗口 -->
+        <div id="container" style="min-width: 1000px; height: 500px; margin: 0 auto"></div>
         <!--主要区域结束-->
         <div id="footer"></div>
     </body>
