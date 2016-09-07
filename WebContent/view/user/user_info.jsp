@@ -12,26 +12,33 @@
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/themes/default/easyui.css"></link>
 	    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/themes/icon.css"></link>
 	    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.easyui.min.js"></script>
+	    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.form.js"></script>
         <script language="javascript" type="text/javascript">
             //保存成功的提示信息
             function showResult() {
-                //$(".main_form").submit();
-                console.log(validata())
                 showResultDiv(false);
+                var form = new FormData(document.getElementById("tf"));
             	if(validata()){
-	        		$.ajax({
+	        		/* $.ajax({
 	        			url		:"${pageContext.request.contextPath }/admin/doInfo.do",
-	        			data	:$(".main_form").serialize(),
+	        			data 	:form,
+	        			//data	:$(".main_form").serialize(),
 	        			success	:function(data){
 	        				if(data=='success'){
-	        					/* $.messager.alert('提示信息','密码修改成功！','info');
-	        					window.location.href="${pageContext.request.contextPath }/" */
 	        					showResultDiv(true);
-	        					/* 三秒后提示取消 */
 	        					setTimeout("showResultDiv(false);",3000)
 	        				}
 	        			}
-	        		})
+	        		}) */
+	        		$("#tf").ajaxSubmit({
+	        			success	:function(data){
+	        				if(data=='success'){
+	        					showResultDiv(true);
+	        					setTimeout("showResultDiv(false);",3000)
+	        					window.location.reload();
+	        				}
+	        			}
+	        		});
         		}
             }
             function showResultDiv(flag) {
@@ -106,7 +113,7 @@
         <div id="main">            
             <!--保存操作后的提示信息：成功或者失败-->
             <div id="save_result_info" class="save_success">保存成功！</div><!--保存失败，数据并发错误！-->
-            <form action="${pageContext.request.contextPath }/admin/doInfo.do" method="post" class="main_form">
+            <form id="tf" action="${pageContext.request.contextPath }/admin/doInfo.do" method="post" class="main_form" enctype="multipart/form-data" >
                 <div class="text_info clearfix"><span>管理员账号：</span></div>
                 <div class="input_info"><input type="text" readonly="readonly" class="readonly" value="${sessionScope.admin.adminId }" /></div>
                 <div class="text_info clearfix"><span>权限：</span></div>
@@ -131,6 +138,10 @@
                 </div>
                 <div class="text_info clearfix"><span>创建时间：</span></div>
                 <div class="input_info"><input type="text"  class="easyui-datebox" labelPosition="top" value="${sessionScope.admin.createTime }"/></div>
+                <div class="text_info clearfix"><span>上传头像：</span></div>
+                <div class="input_info">
+                    <input id="img" name="img" type="file" class="width200" value="" />
+                </div>
                 <div class="button_info clearfix">
                     <input type="button" value="保存" class="btn_save" onclick="showResult();" />
                     <input type="button" value="取消" class="btn_save" onclick="cancel();"/>

@@ -32,6 +32,7 @@
    <!-- 4.静态资源配置 -->
    <mvc:resources location="/js/" mapping="/js/**"></mvc:resources>
    <mvc:resources location="/css/" mapping="/css/**"></mvc:resources>
+   <mvc:resources location="/img/" mapping="/img/**"></mvc:resources>
    <mvc:resources location="/view/images/" mapping="/view/images/**"></mvc:resources>
    <mvc:resources location="/view/styles/" mapping="/view/styles/**"></mvc:resources>
    

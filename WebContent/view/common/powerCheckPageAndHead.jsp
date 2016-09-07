@@ -32,7 +32,7 @@
 <!-- logo区 -->
 <c:if test="${pagePower!=0 }">
 	<div id="header">
-         <img src="${pageContext.request.contextPath }/view/images/logo.png" alt="logo" class="left"/>
+         <img src="${sessionScope.admin.imgURL }" alt="账号头像"  height="50px" width="50px"/>
          <spn>${sessionScope.admin.adminName }</spn><a href="${pageContext.request.contextPath }/admin/login.do">[退出]</a>            
     </div>
 </c:if>

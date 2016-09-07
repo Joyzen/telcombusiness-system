@@ -2,6 +2,8 @@ package org.lanqiao.bean;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Admin {
 	/**
 	 * 管理员ID
@@ -41,8 +43,34 @@ public class Admin {
 	 */
 	private String status;
 	
+	/**
+	 * 权限
+	 */
 	private List<Integer> powers;
 	
+	private MultipartFile img;  //头像
+	
+	/**
+	 * 头像文件地址
+	 */
+	private String imgURL;
+	
+	public MultipartFile getImg() {
+		return img;
+	}
+
+	public void setImg(MultipartFile img) {
+		this.img = img;
+	}
+
+	public String getImgURL() {
+		return imgURL;
+	}
+
+	public void setImgURL(String imgURL) {
+		this.imgURL = imgURL;
+	}
+
 	public String getStatus() {
 		return status;
 	}

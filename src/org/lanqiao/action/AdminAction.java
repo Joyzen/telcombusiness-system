@@ -3,6 +3,7 @@
  */
 package org.lanqiao.action;
 
+import java.io.File;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author Joyzen
@@ -122,9 +124,27 @@ public class AdminAction
 	 * @return
 	 */
 	@RequestMapping("/doInfo")
-	public void doDodifyInfo(Admin admin,HttpServletRequest request,PrintWriter out) {
+	public void doDodifyInfo(Admin admin,
+							   HttpServletRequest request,
+							   @RequestParam(value="img",required=false)MultipartFile img,
+							   PrintWriter out) {
+		/***************头像文件存入目录************************/
+		String path = request.getSession().getServletContext().getRealPath("img");  
+        String fileName = img.getOriginalFilename();  
+		File targetFile = new File(path, fileName);  
+        if(!targetFile.exists()){  
+            targetFile.mkdirs();  
+        }  
+        //保存  
+        try {  
+            img.transferTo(targetFile);  
+        } catch (Exception e) {  
+            e.printStackTrace();  
+        }  
+		/*****************************************************/
 		int adminId = ((Admin)request.getSession().getAttribute("admin")).getAdminId();
 		admin.setAdminId(adminId);
+		admin.setImgURL(request.getContextPath()+"/img/"+fileName);
 		boolean b = as.modiInfo(admin);
 		if(b) {
 			request.getSession().setAttribute("admin", as.selectAdminByAdminId(adminId));
@@ -132,7 +152,6 @@ public class AdminAction
 		}else {
 			out.print("fail");
 		}
-		//return "user/user_info";
 	}
 	
 	/**
