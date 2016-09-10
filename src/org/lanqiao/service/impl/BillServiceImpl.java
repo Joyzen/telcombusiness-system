@@ -107,16 +107,41 @@ public class BillServiceImpl implements BillService {
 		}
 	}
 	
-	public List<List> getHighcharts(){
-		List<ReportDTO> lr = bdd.getReport(null);
-		List<List> ll = new ArrayList<List>();
+	public Map<String,Object> getHighcharts(){
+		Map<String,Object> map = new HashMap<>();
+		map.put("order", "customer");
+		List<ReportDTO> lr = bdd.getReport(map);
+		List<Map<String,Object>> lm = new ArrayList<Map<String,Object>>();
+		List<Map<String,Object>> lmd = new ArrayList<Map<String,Object>>();
 		for(ReportDTO r:lr){
-			List l = new ArrayList();
-			l.add(r.getCustomerName());
+			Map<String,Object> m = new HashMap<>();
+			m.put("name", r.getCustomerName());
+			m.put("y", r.getTimeLong());
+			m.put("drilldown", r.getCustomerName());
+			lm.add(m);
+			lmd.add(getDrill(r.getCustomerName()));
+		}
+		map.put("lm", lm);
+		map.put("lmd", lmd);
+		return map;
+	}
+	
+	public Map<String,Object> getDrill(String customerName){
+		Map<String,Object> map = new HashMap<>();
+		map.put("customerName", customerName);
+		List<ReportDTO> lr = bdd.getReport(map);
+		Map<String,Object> m = new HashMap<>();
+		List<List> ll = new ArrayList<List>();
+		m.put("name", customerName);
+		m.put("id", customerName);
+		for(ReportDTO r:lr){
+			List l = new ArrayList<>();
+			l.add(r.getMonths());
 			l.add(r.getTimeLong());
 			ll.add(l);
 		}
-		return ll;
+		m.put("data", ll);
+		return m;
 	}
 
 }

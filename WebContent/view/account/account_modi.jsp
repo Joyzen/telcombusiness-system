@@ -65,7 +65,7 @@
                     <div class="input_info">
                         <input name="customerName" type="text" value="${modiCustomer.customerName }" />
                         <span class="required">*</span>
-                        <div class="validate_msg_long error_msg">20长度以内的汉字、字母和数字的组合</div>
+                        <div class="validate_msg_long">20长度以内的汉字、字母和数字的组合</div>
                     </div>
                     <div class="text_info clearfix"><span>身份证：</span></div>
                     <div class="input_info">
@@ -74,10 +74,10 @@
                     <div class="text_info clearfix"><span>登录账号：</span></div>
                     <div class="input_info">
                         <input type="text" value="${modiCustomer.customerAccount }" readonly class="readonly"  />                        
-                        <div class="change_pwd">
-                            <input id="chkModiPwd" type="checkbox" onclick="showPwd(this);" />
-                            <label for="chkModiPwd">修改密码</label>
-                        </div>
+                    </div>
+                    <div class="change_pwd">
+                        <input id="chkModiPwd" type="checkbox" onclick="showPwd(this);" />
+                        <label for="chkModiPwd">修改密码</label>
                     </div>
                     <!--修改密码部分-->
                     <div id="divPwds">
@@ -104,7 +104,7 @@
                     <div class="input_info">
                         <input name="phone" value="${modiCustomer.phone }" type="text" class="width200"/>
                         <span class="required">*</span>
-                        <div class="validate_msg_medium error_msg">正确的电话号码格式：手机或固话</div>
+                        <div class="validate_msg_medium">正确的电话号码格式：手机或固话</div>
                     </div>
                     <!-- <div class="text_info clearfix"><span>推荐人身份证号码：</span></div>
                     <div class="input_info">
@@ -154,7 +154,8 @@
                     <!--操作按钮-->
                     <div class="button_info clearfix">
                         <input type="button" value="保存" class="btn_save" onclick="showResult();" />
-                        <input type="button" value="取消" class="btn_save" />
+                        <input type="button" value="取消" class="btn_save" onclick=
+                        "location.href='${pageContext.request.contextPath }/customer/showDataList.do';"/>
                     </div>
                 </form>  
         </div>

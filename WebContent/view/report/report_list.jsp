@@ -15,6 +15,8 @@
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.easyui.min.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/easyui-lang-zh_CN.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/Highcharts/highcharts.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/Highcharts/data.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/Highcharts/drilldown.js"></script>
         <script language="javascript" type="text/javascript">
         	var rootPath="${pageContext.request.contextPath}";
 	        function changeTab(e,ulObj) {                
@@ -146,65 +148,57 @@
             	}
             }
             /*************************************************************/
-            $(function () {
-            	var url=rootPath+'/bill/getHighcharts.do'
-    			$.getJSON(url, function (data) {
-		        $('#container').highcharts({
-		            chart: {
-		                zoomType: 'x'
-		            },
-		            title: {
-		                text: '用户时长排序'
-		            },
-		            subtitle: {
-		                text: document.ontouchstart === undefined ?
-		                        'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
-		            },
-		            xAxis: {
-		                type: 'linear'
-		            },
-		            yAxis: {
-		                title: {
-		                    text: '使用时长（秒）'
-		                }
-		            },
-		            legend: {
-		                enabled: false
-		            },
-		            plotOptions: {
-		                area: {
-		                    fillColor: {
-		                        linearGradient: {
-		                            x1: 0,
-		                            y1: 0,
-		                            x2: 0,
-		                            y2: 1
-		                        },
-		                        stops: [
-		                            [0, Highcharts.getOptions().colors[0]],
-		                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-		                        ]
-		                    },
-		                    marker: {
-		                        radius: 2
-		                    },
-		                    lineWidth: 1,
-		                    states: {
-		                        hover: {
-		                            lineWidth: 1
-		                        }
-		                    },
-		                    threshold: null
-		                }
-		            },
-		            series: [{
-		                type: 'area',
-		                name: '时长',
-		                data: data
-		            }]
-		        });
-		    });
-		});
+            	var url=rootPath+'/bill/getHighcharts.do';
+            	$(function () {
+            		$.getJSON(url, function (data) {
+            			//data=eval(data)
+            	        // Create the chart
+            			$('#container').highcharts({
+        	                chart: {
+        	                    type: 'column'
+        	                },
+        	                title: {
+        	                    text: 'Browser market shares. November, 2013'
+        	                },
+        	                subtitle: {
+        	                    text: 'Click the columns to view versions. Source: netmarketshare.com.'
+        	                },
+        	                xAxis: {
+        	                    type: 'category'
+        	                },
+        	                yAxis: {
+        	                    title: {
+        	                        text: 'Total percent market share'
+        	                    }
+        	                },
+        	                legend: {
+        	                    enabled: false
+        	                },
+        	                plotOptions: {
+        	                    series: {
+        	                        borderWidth: 0,
+        	                        dataLabels: {
+        	                            enabled: true,
+        	                            format: '{point.y:.1f}'
+        	                        }
+        	                    }
+        	                },
+        	                tooltip: {
+        	                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+        	                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}</b> of total<br/>'
+        	                },
+        	                series: [{
+        	                    name: 'Brands',
+        	                    colorByPoint: true,
+        	                    data: data.lm
+        	                }],
+        	                drilldown: {
+        	                    series: data.lmd
+        	                },
+        	            }); 
+            		})
+            	            
+            	});
         /********************************************************************/
         </script>
     </head>

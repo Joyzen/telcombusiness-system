@@ -64,8 +64,6 @@
                     onDblClickCell:function(index,field,value){
                     	if(field=='customerName'){
                     		detail();
-                    	}else if(field=='tariffName'){
-                    		modi();
                     	}
                     },
                     toolbar:"#search",
@@ -214,6 +212,15 @@
         		return '';
         	}
         	function setStus(status,bussinessId){
+                if(status==0){
+                    var r = window.confirm("确定要暂停此业务账号吗？");
+                }else if (status==1) {
+                    var r = window.confirm("确定要启用此此业务账号吗？");
+                }else if (status==2) {
+                    var r = window.confirm("确定要删除此业务账号吗？删除后将不能恢复。");
+                }
+                
+                if(r){
         		$.ajax({
             		url		:rootPath+"/bussiness/updateStatus.do",
             		data	:{
@@ -237,6 +244,7 @@
             			}
             		}
             	})
+                }
         	}
         	//修改操作
         	function modi(bussinessId,osAccount,osId,tariffId){

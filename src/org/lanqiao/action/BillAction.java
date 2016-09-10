@@ -201,6 +201,9 @@ public class BillAction {
 		if(!"customer".equals(order)){	
 			map.put("start", start);
 			map.put("rows", rows);			
+		}else if("customer".equals(order)){
+			map.put("start", 0);
+			map.put("rows", 3);	
 		}
 		map.put("order", order);	
 		Map<String,Object> m = bs.getReport(map);
@@ -210,11 +213,17 @@ public class BillAction {
 		return m;		
 	}
 	
+	/**
+	 * 处理highcharts获取数据的方法
+	 * @param dataType
+	 * @return
+	 */
 	@RequestMapping("/getHighcharts")
 	@ResponseBody
-	public List<List> getHighcharts(){
-		List<List> ll = bs.getHighcharts();
-		return ll;
+	public Map<String,Object> getHighcharts(){
+		//dataType为series或drilldown，分表示不同数据
+		Map<String,Object> m = bs.getHighcharts();
+		return m;
 	}
 	
 }

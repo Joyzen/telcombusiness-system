@@ -35,6 +35,6 @@ public interface BillService {
 	 * 获取Highcharts显示数据
 	 * @return
 	 */
-	public List<List> getHighcharts();
+	public Map<String,Object> getHighcharts();
 	
 }

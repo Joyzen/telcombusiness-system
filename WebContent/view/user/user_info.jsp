@@ -19,17 +19,6 @@
                 showResultDiv(false);
                 var form = new FormData(document.getElementById("tf"));
             	if(validata()){
-	        		/* $.ajax({
-	        			url		:"${pageContext.request.contextPath }/admin/doInfo.do",
-	        			data 	:form,
-	        			//data	:$(".main_form").serialize(),
-	        			success	:function(data){
-	        				if(data=='success'){
-	        					showResultDiv(true);
-	        					setTimeout("showResultDiv(false);",3000)
-	        				}
-	        			}
-	        		}) */
 	        		$("#tf").ajaxSubmit({
 	        			success	:function(data){
 	        				if(data=='success'){
