@@ -151,24 +151,23 @@
             	var url=rootPath+'/bill/getHighcharts.do';
             	$(function () {
             		$.getJSON(url, function (data) {
-            			//data=eval(data)
             	        // Create the chart
             			$('#container').highcharts({
         	                chart: {
         	                    type: 'column'
         	                },
         	                title: {
-        	                    text: 'Browser market shares. November, 2013'
+        	                    text: '用户时长情况'
         	                },
         	                subtitle: {
-        	                    text: 'Click the columns to view versions. Source: netmarketshare.com.'
+        	                    text: '点击柱状图查看详细'
         	                },
         	                xAxis: {
         	                    type: 'category'
         	                },
         	                yAxis: {
         	                    title: {
-        	                        text: 'Total percent market share'
+        	                        text: '用户已使用时长（秒）'
         	                    }
         	                },
         	                legend: {
@@ -185,7 +184,7 @@
         	                },
         	                tooltip: {
         	                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-        	                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}</b> of total<br/>'
+        	                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}</b><br/>'
         	                },
         	                series: [{
         	                    name: 'Brands',

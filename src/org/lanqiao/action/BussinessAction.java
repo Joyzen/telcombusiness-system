@@ -146,7 +146,6 @@ public class BussinessAction
 	@RequestMapping("/add")
 	public void addBussiness(@RequestParam("customerId")int customerId,
 													 @RequestParam("tariffId")int tariffId,
-													 @RequestParam("serverIp")String serverIp,
 													 @RequestParam("osAccount")String osAccount,
 													 @RequestParam("osPassword")String osPassword,
 													 PrintWriter out
@@ -156,7 +155,6 @@ public class BussinessAction
 		os.setTariffId(tariffId);
 		os.setOsPassword(osPassword);
 		os.setOsAccount(osAccount);
-		os.setServerIp(serverIp);
 		os.setStatus("1");
 		boolean b = bs.addBussiness(os);
 		if (b)

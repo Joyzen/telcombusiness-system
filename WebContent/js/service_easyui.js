@@ -127,12 +127,19 @@
             }
             //根据身份证查询账务账号
             function searchAccounts() {
+            	$("#idNumberMsg").html('');
 				$.ajax({
 					url:rootPath+"/bussiness/checkIdNumber.do",
 					data:{"idNumber":$("input[name='idNumber']:eq(1)").val()},
 					success:function(data){
-						$("input[name='customerId']").val(data.customerId)
-						$("input[name='customerAccount']").val(data.customerAccount)
+						if(data!=null&&data!=''){
+							$("input[name='customerId']").val(data.customerId)
+							$("input[name='customerAccount']").val(data.customerAccount)
+						}else if(data==null||data==''){
+							$("input[name='customerAccount']").val('')
+							$("#idNumberMsg").html('此身份证没有账务账号，请重新输入')
+						}
+						
 					}
 				})
             }

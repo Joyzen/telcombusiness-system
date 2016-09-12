@@ -74,27 +74,21 @@
                      required="true"/>
                     <input type="button" value="查询账务账号" class="btn_search_large" onclick="searchAccounts()" />
                     <input name="customerId"type="hidden" value=""/>
-                    <span class="required">*</span>
-                    <div class="validate_msg_short">没有此身份证号，请重新录入。</div>
+                    <span id="idNumberMsg" class="required">*</span>
+                    <div class="validate_msg_short"></div>
                 </div>
                 <div class="text_info clearfix"><span>账务账号：</span></div>
                 <div class="input_info">
                     <input name="customerAccount" class="easyui-validatebox" type="text" value="" onkeyup="searchAccounts(this);" 
                     required="true"/>
                     <span class="required">*</span>
-                    <div class="validate_msg_long">没有此账务账号，请重新录入。</div>
+                    <div class="validate_msg_long"></div>
                 </div>
                 <div class="text_info clearfix"><span>资费类型：</span></div>
                 <div class="input_info">
                     <select name="tariffId">
                     </select>                        
                 </div> 
-                <div class="text_info clearfix"><span>服务器 IP：</span></div>
-                <div class="input_info">
-                    <input name="serverIp" type="text" value="192.168.0.23"  />
-                    <span class="required">*</span>
-                    <div class="validate_msg_long">15 长度，符合IP的地址规范</div>
-                </div>                   
                 <div class="text_info clearfix"><span>登录 OS 账号：</span></div>
                 <div class="input_info">
                     <input class="easyui-validatebox" name="osAccount" type="text" 
@@ -139,10 +133,6 @@
                     <input name="osAccount" type="text" value="" readonly class="readonly" />
                     <input name="osId" type="hidden"/>
                 </div>
-                <!-- <div class="text_info clearfix"><span>服务器 IP：</span></div>
-                <div class="input_info">
-                    <input type="text" value="192.168.0.23" readonly class="readonly" />
-                </div> -->
                 <div class="text_info clearfix"><span>资费类型：</span></div>
                 <div class="input_info">
                     <select name="tariffId" class="width150">
@@ -169,8 +159,6 @@
                 <div class="input_info"><input id="customerName" type="text" readonly class="readonly" /></div>
                 <div class="text_info clearfix"><span>身份证号码：</span></div>
                 <div class="input_info"><input id="idNum" type="text" readonly class="readonly" /></div>
-                <!-- <div class="text_info clearfix"><span>服务器 IP：</span></div>
-                <div class="input_info"><input type="text" value="192.168.0.23" readonly class="readonly" /></div> -->
                 <div class="text_info clearfix"><span>OS 账号：</span></div>
                 <div class="input_info"><input id="osAcc" type="text" readonly class="readonly" /></div>
                 <div class="text_info clearfix"><span>状态：</span></div>
