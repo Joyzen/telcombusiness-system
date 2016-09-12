@@ -94,21 +94,21 @@
                     <input class="easyui-validatebox" name="osAccount" type="text" 
                     data-options="required:true,validType:'osAccount'"/>
                     <span class="required">*</span>
-                    <div class="validate_msg_long">8长度以内的字母、数字和下划线的组合</div>
+                    <div class="validate_msg_long"></div>
                 </div>
                 <div class="text_info clearfix"><span>密码：</span></div>
                 <div class="input_info">
                     <input id="osPassword" name="osPassword" type="password" class="easyui-validatebox"
                     data-options="required:true,validType:'password'" />
                     <span class="required">*</span>
-                    <div class="validate_msg_long">30长度以内的字母、数字和下划线的组合</div>
+                    <div class="validate_msg_long"></div>
                 </div>
                 <div class="text_info clearfix"><span>重复密码：</span></div>
                 <div class="input_info">
                     <input class="easyui-validatebox" type="password" 
                     data-options="required:true" validType="equals['#osPassword']"/>
                     <span class="required">*</span>
-                    <div class="validate_msg_long">两次密码必须相同</div>
+                    <div class="validate_msg_long"></div>
                 </div>     
                 <!--操作按钮-->
                 <div class="button_info clearfix">
@@ -186,7 +186,6 @@
         </div>
         <!-- ----------------------详情显示对话窗口结束--------------------------- -->  
                 <p><span class="required">**双击姓名查看详细信息**</span><br />
-                <span class="required">**双击资费修改资费套餐**</span><br />
                	业务说明：<br />
                 1、创建即开通，记载创建时间；<br />
                 2、暂停后，记载暂停时间；<br />

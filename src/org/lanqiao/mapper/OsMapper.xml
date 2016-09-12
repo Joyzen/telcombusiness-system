@@ -32,8 +32,8 @@
 	</update>
 	
 	<insert id="insertOs" parameterType="Os" useGeneratedKeys="true" keyProperty="osId" >
-		insert into os(customerId,tariffId,osAccount,osPassword,serverIp,status)
-		values(#{customerId},#{tariffId},#{osAccount},#{osPassword},#{serverIp},#{status})
+		insert into os(customerId,tariffId,osAccount,osPassword,status)
+		values(#{customerId},#{tariffId},#{osAccount},#{osPassword},#{status})
 		<!-- 返回插入自增的主键 -->
 		<selectKey keyProperty="osId" resultType="int" order="AFTER">
 			SELECT LAST_INSERT_ID()

@@ -214,7 +214,8 @@
                     <li><a href="#" class="tab_out" title="每台服务器上累计时长最高的前三名客户">时长排行榜</a></li>
                     <li><a href="#" class="tab_out" title="每台服务器每种资费标准的使用次数">资费使用率</a></li>
                 </ul>
-                <button onclick="$('#container').dialog('open')">查看表格数据</button>
+                <div><input type="button" value="查看柱状图" class="btn_search_large right" onclick="$('#container').dialog('open')"/></div>
+                <!-- <button onclick="$('#container').dialog('open')">查看表格数据</button> -->
             </div>            
             <div class="report_box">
                 <!--数据区域：用表格展示数据-->

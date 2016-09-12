@@ -91,6 +91,19 @@
             function cancel(){
             	window.location.href="${pageContext.request.contextPath }/admin/index.do";
             }
+            $(function(){
+            	$('#dd').datebox({
+	            	parser:function(s){
+	            		var t = Date.parse(s);
+	            		if (!isNaN(t)){
+	            			return new Date(t);
+	            		} else {
+	            			return new Date();
+	            		}
+	            	}
+            	})
+            	$('#dd').datebox('setValue', '${sessionScope.admin.createTime }');
+            })
         </script>
     </head>
     <body>
@@ -113,21 +126,25 @@
                 <div class="input_info">
                     <input id="name" name="adminName" type="text" value="${sessionScope.admin.adminName }" />
                     <span class="required">*</span>
-                    <div id="nameMsg" class="validate_msg_medium">20长度以内的汉字、字母的组合</div>
+                    <div id="nameMsg" class="validate_msg_medium"></div>
                 </div>
                 <div class="text_info clearfix"><span>电话：</span></div>
                 <div class="input_info">
                     <input id="phone" name="phone" type="text" class="width200" value="${sessionScope.admin.phone }" />
-                    <div id="phoneMsg" class="validate_msg_medium">电话号码格式：手机或固话</div>
+                    <div id="phoneMsg" class="validate_msg_medium"></div>
                 </div>
                 <div class="text_info clearfix"><span>Email：</span></div>
                 <div class="input_info">
                     <input id="email" name="email" type="text" class="width200" value="${sessionScope.admin.email }" />
-                    <div id="emailMsg" class="validate_msg_medium">50长度以内，符合 email 格式</div>
+                    <div id="emailMsg" class="validate_msg_medium"></div>
                 </div>
                 <div class="text_info clearfix"><span>创建时间：</span></div>
-                <div class="input_info"><input type="text"  class="easyui-datebox" labelPosition="top" value="${sessionScope.admin.createTime }"/></div>
-                <div class="text_info clearfix"><span>上传头像：</span></div>
+                <div class="input_info"><input id="dd" type="text"  class="easyui-datebox" editable="false" labelPosition="top" value="${sessionScope.admin.createTime }"/></div>
+                <div class="text_info clearfix"><span>账号头像：</span></div>
+                <div class="input_info">
+                	<img src="${sessionScope.admin.imgURL }" alt="账号头像"  height="50px" width="50px"/>
+                </div>
+                <div class="text_info clearfix"><span>更改头像：</span></div>
                 <div class="input_info">
                     <input id="img" name="img" type="file" class="width200" value="" />
                 </div>
