@@ -23,6 +23,10 @@
             function resetPwd() {
             	var a=new Array()
             	var c = $("input:checked");
+            	if(c.length<1){
+            		alert("请至少选择一条记录！")
+            		return;
+            	}
             	var i = 0;
             	for(;i<c.length;i++){
             		$.ajax({
@@ -47,6 +51,7 @@
                 	window.location.href="${pageContext.request.contextPath }/admin/delAdmin.do?adminId="
                 			+adminId+"&currentPage=${currentPage}";
                 }
+                $("#operate_result_info").html("删除成功！")
                 document.getElementById("operate_result_info").style.display = "block";
             }
             //全选
@@ -78,7 +83,6 @@
                         模块：
                         <select id="selModules" class="select_search" name="powerId">
                             <option ${powerId==-1?"selected":"" } value="-1">全部</option>
-                            <option ${powerId==1?"selected":"" } value="1">角色管理</option>
                             <option ${powerId==2?"selected":"" } value="2">管理员管理</option>
                             <option ${powerId==3?"selected":"" } value="3">资费管理</option>
                             <option ${powerId==4?"selected":"" } value="4">账务账号</option>
@@ -93,8 +97,8 @@
                 </div>
                 <!--删除和密码重置的操作提示-->
                 <div id="operate_result_info" class="operate_fail">
-                    <img src="../images/close.png" onclick="this.parentNode.style.display='none';" />
-                    <span>删除成功！</span><!--密码重置失败！数据并发错误。-->
+                    <img src="${pageContext.request.contextPath }/view/images/close.png" onclick="this.parentNode.style.display='none';" alt="图片"/>
+                    <span ></span>
                 </div> 
                 <!--数据区域：用表格展示数据-->     
                 <div id="data">            

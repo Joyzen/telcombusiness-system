@@ -63,7 +63,7 @@
                     <textarea class="width300 height70 readonly" readonly>${tariffDetail.tariffExplain }</textarea>
                 </div>                    
                 <div class="button_info clearfix">
-                    <input type="button" value="返回" class="btn_save" onclick="location.href='fee_list.html';" />
+                    <input type="button" value="返回" class="btn_save" onclick="location.href='${pageContext.request.contextPath}/tariff/showDataList.do?orderBy=tariffASC';" />
                 </div>
             </form>  
         </div>

@@ -17,7 +17,7 @@
         <script type="text/javascript">
         	var rootPath="${pageContext.request.contextPath}";
         	function back(){
-        		
+        		window.location.href=rootPath+'/bill/toDetail.do?idNumber=${idNumber }&months=${months }&cost=${cost }'
         	}
         	$(function(){
         		$("#datalist").datagrid({
@@ -61,6 +61,19 @@
         	function formatTariffName(val,row){
         		return row.os.tariff.tariffName;
         	}
+        	function fmlit(val,row){
+        		var date = new Date(val); 
+        		//var date = new Date(row.loginInTime); 
+        		var y = date.getFullYear();  
+        	    var m = date.getMonth() + 1;  
+        	    m = m < 10 ? ('0' + m) : m;  
+        	    var d = date.getDate();  
+        	    d = d < 10 ? ('0' + d) : d;  
+        	    var h = date.getHours();  
+        	    var minute = date.getMinutes();  
+        	    minute = minute < 10 ? ('0' + minute) : minute;  
+        	    return y + '-' + m + '-' + d+' '+h+':'+minute;
+        	}
         </script>
     </head>
     <body>
@@ -85,11 +98,11 @@
                     <thead>
                         <tr>
                             <th width="150" field="osLoginId">登录 表ID</th>
-                            <th width="150" field="loginInTime">登入时刻</th>
-                            <th width="150" field="loginOutTime">登出时刻</th>
+                            <th width="150" field="loginInTime" formatter="fmlit">登入时刻</th>
+                            <th width="150" field="loginOutTime" formatter="fmlit">登出时刻</th>
                             <th width="150" field="timeLong">时长（秒）</th>
-                            <th width="150" field="cost">费用</th>
-                            <th width="70" field="tariffName" formatter="formatTariffName">资费</th>
+                            <th width="70" field="cost">费用</th>
+                            <th width="150" field="tariffName" formatter="formatTariffName">资费</th>
                         </tr>
                     </thead>
                     </table>

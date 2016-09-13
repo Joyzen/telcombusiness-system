@@ -24,7 +24,7 @@
 			</if>
 		</where>
 		order by loginOutTime desc
-		<if test="start!=null and start!='' and rows!=null and rows!=''">
+		<if test="start!=null and rows!=null">
 			limit #{start},#{rows}
 		</if>
 	</select>

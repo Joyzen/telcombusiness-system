@@ -113,6 +113,12 @@ public class BillAction {
 											  @RequestParam("page")int page,
 											  @RequestParam("rows")int rows){
 		int start = (page-1)*rows;
+		if(months.length()==8){
+			months = months.substring(0, 4)+months.substring(5,7);
+		}
+		if(months.length()==7){
+			months = months.substring(0, 4)+"0"+months.substring(5,6);
+		}
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("start", start);
 		map.put("rows", rows);
@@ -139,7 +145,9 @@ public class BillAction {
 		    					  @RequestParam("osId")int osId,
 		                          @RequestParam("cost")double cost,
 		                          @RequestParam("months")String months,
+		                          @RequestParam("idNumber")String idNumber,
 		                          Model model){
+		String oMonths = months;
 		if(months.substring(4, 5).equals("0")){
 			months=months.subSequence(0, 4)+"年"+months.subSequence(5, 6)+"月";
 		}else{
@@ -148,8 +156,9 @@ public class BillAction {
 		model.addAttribute("customerAccount", customerAccount);
 		model.addAttribute("osAccount", osAccount);
 		model.addAttribute("cost", cost);
-		model.addAttribute("months", months);
+		model.addAttribute("months", oMonths);
 		model.addAttribute("osId", osId);
+		model.addAttribute("idNumber", idNumber);
 		return "bill/bill_service_detail";
 	}
 	

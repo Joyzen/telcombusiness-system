@@ -69,13 +69,16 @@
         	function formatOpr(val,row){
         		var url=rootPath+"/bill/toLoginDetail.do?customerAccount=${customerAccount }"+
         				"&osAccount="+row.os.osAccount+"&osId="+row.os.osId+
-        				"&cost="+row.cost+"&months="+row.months;
+        				"&cost="+row.cost+"&months="+row.months+"&idNumber=${idNumber}";
         		return "<a href=\'"+url+"\'>详情</a>";
         	}
         	function formatTimeLong(val,row){
         		console.log(typeof row.timeLong)
         		console.log(row.timeLong)
         		return row.timeLong;
+        	}
+        	function back(){
+        		window.location.href=rootPath+'/bill/toBills.do'
         	}
         </script>
     </head>
@@ -94,7 +97,7 @@
                     <div>姓名：<span class="readonly width70">${customerName }</span></div>
                     <div>计费时间：<span class="readonly width70">${cost }</span></div>
                     <div>总费用：<span class="readonly width70">${months }</span></div>
-                    <input type="button" value="返回" class="btn_add" onclick="back" />
+                    <input type="button" value="返回" class="btn_add" onclick="back()" />
                 </div>  
                 <!--数据区域：用表格展示数据-->     
                 <div id="data">            

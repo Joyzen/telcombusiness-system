@@ -29,9 +29,11 @@
 			and osId in
 			(select osId from os where customerId=#{customerId})
 			</if>
+			<if test="months!=null and months!=''">
+			and months=#{months}
+			</if>
 		</where>
-		order by months desc
-		<if test="start!=null and start!='' and rows!=null and rows!=''">
+		<if test="start!=null and rows!=null">
 			limit #{start},#{rows}
 		</if>
 	</select>

@@ -35,13 +35,20 @@
                 var div = document.getElementById("optionalInfo");
                 if (div.className == "hide") {
                     div.className = "show";
-                    imgObj.src = "../images/hide.png";
+                    imgObj.src = "${pageContext.request.contextPath }/view//images/hide.png";
                 }
                 else {
                     div.className = "hide";
-                    imgObj.src = "../images/show.png";
+                    imgObj.src = "${pageContext.request.contextPath }/view//images/show.png";
                 }
             }
+            function bbirth() {
+        		var idCard18 = $("#idNumber").val();
+        		var year =  idCard18.substring(6,10);   
+        	    var month = idCard18.substring(10,12);   
+        	    var day = idCard18.substring(12,14);
+        	    $("#birth").val(year+"年"+month+"月"+day+"日");
+        	}
         </script>
     </head>
     <body>
@@ -63,7 +70,7 @@
                 </div>
                 <div class="text_info clearfix"><span>身份证：</span></div>
                 <div class="input_info">
-                    <input name="idNumber" type="text" value="" />
+                    <input name="idNumber" id="idNumber" type="text" value="" onblur="bbirth()"/>
                     <span class="required">*</span>
                     <div class="validate_msg_long">正确的身份证号码格式</div>
                 </div>
@@ -94,9 +101,9 @@
                 <!--可选项-->
                 <div class="text_info clearfix"><span>可选项：</span></div>
                 <div class="input_info">
-                    <img src="../images/show.png" alt="展开" onclick="showOptionalInfo(this);" />
+                    <img src="${pageContext.request.contextPath }/view/images/show.png" alt="展开" onclick="showOptionalInfo(this);" />
                 </div>
-                <div id="optionalInfo" class="hide">
+                <div id="optionalInfo" class="hide" style="height:200px">
                     <!-- <div class="text_info clearfix"><span>推荐人身份证号码：</span></div>
                     <div class="input_info">
                         <input type="text"/>
@@ -104,7 +111,7 @@
                     </div> -->
                     <div class="text_info clearfix"><span>生日：</span></div>
                     <div class="input_info">
-                        <input type="text" value="" readonly class="readonly" />
+                        <input type="text" id="birth" value="" readonly class="readonly" />
                     </div>
                     <div class="text_info clearfix"><span>Email：</span></div>
                     <div class="input_info">
@@ -146,9 +153,9 @@
                 <!--操作按钮-->
                 <div class="button_info clearfix">
                     <input type="button" value="保存" class="btn_save" onclick="showResult();" />
-                    <input type="button" value="取消" class="btn_save" />
+                    <input type="button" value="取消" class="btn_save" onclick="location.href='${pageContext.request.contextPath}/customer/showDataList.do';"/>
                 </div>
-            </form>  
+            </form>
         </div>
         <!--主要区域结束-->
         <div id="footer">

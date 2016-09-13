@@ -18,8 +18,8 @@
             //开通或暂停
             function setState(customerId,status) {
                 var r = window.confirm("确定要更改此账务账号吗？");
-                document.getElementById("operate_result_info").style.display = "block";
                 if(r){
+                	document.getElementById("operate_result_info").style.display = "block";
                 	window.location.href=
                 		"${pageContext.request.contextPath }/customer/doStatus.do"
                 		+"?customerId="+customerId+"&status="+status+
@@ -63,7 +63,7 @@
                 <!--删除等的操作提示-->
                 <div id="operate_result_info" class="operate_success">
                     <img src="../images/close.png" onclick="this.parentNode.style.display='none';" />
-                    删除成功，且已删除其下属的业务账号！
+                    	操作成功！
                 </div>   
                 <!--数据区域：用表格展示数据-->     
                 <div id="data">            

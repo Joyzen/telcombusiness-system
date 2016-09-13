@@ -56,6 +56,10 @@ public class CustomerAction
 		customerPage.setQueryObj(map);
 		customerPage.setPage(currentPage);
 		model.addAttribute("customerPage", customerPage);
+		model.addAttribute("idNumber", idNumber);
+		model.addAttribute("status", status);
+		model.addAttribute("customerName", customerName);
+		model.addAttribute("customerAccount", customerAccount);
 		return "account/account_list";
 	}
 	

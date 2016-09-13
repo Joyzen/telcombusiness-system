@@ -66,12 +66,6 @@
                     singleSelect:true,//是否单选 
                     pagination:true,//分页控件 
                     rownumbers:false,//行号 
-                    /* frozenColumns:[[ 
-                        {field:'ck',checkbox:true} 
-                    ]], */ 
-                    /* onDblClickRow:function(row,index){
-                    	detail();
-                    }, */
                     toolbar:"#tabs"
             	})
             	var p = $('#datalist').datagrid('getPager'); 
@@ -94,6 +88,16 @@
             	m=Math.floor((timeLong-h*60*60)/60);
             	s=timeLong%60;
             	return h+'小时'+m+'分'+s+'秒'
+            }
+            function formatTariffType(val,row){
+            	if(row.tariffType=='1'){
+            		return '包月'
+            	}else if(row.tariffType=='2'){
+            		return '套餐'
+            	}else if(row.tariffType=='3'){
+            		return '计时'
+            	}
+            	return '无'
             }
             function initTable(i){
             	if(i==0){
@@ -211,11 +215,10 @@
         	<div id="tabs" class="tabs">
     	        <ul onclick="changeTab(event,this);">
         	        <li><a href="#" class="tab_on" title="每位客户每月的累计时长">客户使用时长</a></li>
-                    <li><a href="#" class="tab_out" title="每台服务器上累计时长最高的前三名客户">时长排行榜</a></li>
-                    <li><a href="#" class="tab_out" title="每台服务器每种资费标准的使用次数">资费使用率</a></li>
+                    <li><a href="#" class="tab_out" title="系统上累计时长最高的前三名客户">时长排行榜</a></li>
+                    <li><a href="#" class="tab_out" title="每种资费标准的使用次数">资费使用率</a></li>
                 </ul>
                 <div><input type="button" value="查看柱状图" class="btn_search_large right" onclick="$('#container').dialog('open')"/></div>
-                <!-- <button onclick="$('#container').dialog('open')">查看表格数据</button> -->
             </div>            
             <div class="report_box">
                 <!--数据区域：用表格展示数据-->
@@ -223,16 +226,16 @@
                     <table id="datalist">
                     <thead>
                         <tr>                            
-                            <th field="customerId">账号 ID</th>
-                            <th field="customerAccount">账务帐号</th>
-                            <th field="customerName">客户名称</th>
-                            <th field="idNumber" class="width200">身份证号码</th>
-                            <th field="phone">电话</th>
-                            <th field="months">月份</th>
-                            <th field="timeLong" formatter="formatTimeLong">累积时长</th>
-                            <th field="tariffId">资费ID</th>
-                            <th field="tariffName">资费名称</th>
-                            <th field="tariffType">资费类型</th>
+                            <th field="customerId" width="70">账号 ID</th>
+                            <th field="customerAccount" width="100">账务帐号</th>
+                            <th field="customerName" width="100">客户姓名</th>
+                            <th field="idNumber" width="150">身份证号码</th>
+                            <th field="phone" width="120">电话</th>
+                            <th field="months" width="110">月份</th>
+                            <th field="timeLong" width="120" formatter="formatTimeLong">累积时长</th>
+                            <th field="tariffId" width="70">资费ID</th>
+                            <th field="tariffName" width="120">资费名称</th>
+                            <th field="tariffType" width="70" formatter="formatTariffType">资费类型</th>
                             <th field="times">资费使用率（次）</th>
                         </tr>                      
                     </thead>

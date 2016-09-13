@@ -54,7 +54,6 @@ public class BillServiceImpl implements BillService {
 		int customerId = (int)map.get("customerId");
 		Customer customer = cd.selectCustomerByCustomerId(customerId);
 		List<BillDetail> lbd = bdd.selectBillDetailByCondition(map);
-		System.out.println(lbd.get(0).getTimeLong());
 		int total = bdd.countBillDetail(map);
 		Map<String,Object> m = new HashMap<String,Object>();
 		m.put("rows", lbd);

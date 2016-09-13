@@ -126,25 +126,31 @@ public class AdminAction
 	@RequestMapping("/doInfo")
 	public void doDodifyInfo(Admin admin,
 							   HttpServletRequest request,
-							   @RequestParam(value="img",required=false)MultipartFile img,
 							   PrintWriter out) {
 		/***************头像文件存入目录************************/
-		String path = request.getSession().getServletContext().getRealPath("img");  
-        String fileName = img.getOriginalFilename();  
-		File targetFile = new File(path, fileName);  
-        if(!targetFile.exists()){  
-            targetFile.mkdirs();  
-        }  
-        //保存  
-        try {  
-            img.transferTo(targetFile);  
-        } catch (Exception e) {  
-            e.printStackTrace();  
-        }  
+		String fileName = "";
+		if(admin.getImg()!=null){
+			String path = request.getSession().getServletContext().getRealPath("img");  
+			fileName = admin.getImg().getOriginalFilename();  
+			File targetFile = new File(path, fileName);  
+			if(!targetFile.exists()){  
+				targetFile.mkdirs();  
+			}  
+			//保存  
+			try {  
+				admin.getImg().transferTo(targetFile);  
+			} catch (Exception e) {  
+				e.printStackTrace();  
+			}  
+		}
 		/*****************************************************/
 		int adminId = ((Admin)request.getSession().getAttribute("admin")).getAdminId();
 		admin.setAdminId(adminId);
-		admin.setImgURL(request.getContextPath()+"/img/"+fileName);
+		if(admin.getImg()==null){
+			admin.setImgURL("");
+		}else{
+			admin.setImgURL(request.getContextPath()+"/img/"+fileName);
+		}
 		boolean b = as.modiInfo(admin);
 		if(b) {
 			request.getSession().setAttribute("admin", as.selectAdminByAdminId(adminId));

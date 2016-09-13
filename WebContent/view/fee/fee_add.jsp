@@ -166,7 +166,7 @@
         <!--导航区域结束-->
         <!--主要区域开始-->
         <div id="main">            
-            <div id="save_result_info" class="save_fail">保存成功！</div>
+            <div id="save_result_info" class="save_success">保存成功！</div>
             <form action="" method="" class="main_form">
                 <div class="text_info clearfix"><span>资费名称：</span></div>
                 <div class="input_info">
