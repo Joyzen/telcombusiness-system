@@ -18,9 +18,9 @@
             function showResult() {
                 showResultDiv(false);
                 var form = new FormData(document.getElementById("tf"));
-                if($("input[name='img']").val()==''){
+                /*if($("input[name='img']").val()==''){
                 	alert("请选择一个图像文件！")
-                }
+                }*/
             	if(validata()){
 	        		$("#tf").ajaxSubmit({
 	        			success	:function(data){
@@ -94,6 +94,14 @@
             function cancel(){
             	window.location.href="${pageContext.request.contextPath }/admin/index.do";
             }
+            function previewImg(obj){
+            	var img = obj.files[0];
+            	var reader = new FileReader();   
+                reader.readAsDataURL(img);
+            	reader.onload = function(e){  
+            		$("img[alt='账号头像预览']").attr("src",this.result);
+            	}
+            }
         </script>
     </head>
     <body>
@@ -130,14 +138,14 @@
                 </div>
                 <div class="text_info clearfix"><span>创建时间：</span></div>
                 <div class="input_info"><input readonly="readonly" id="dd" type="text" value="${sessionScope.admin.createTime }"/></div>
-                <div class="text_info clearfix"><span>账号头像：</span></div>
+                <div class="text_info clearfix"><span>账号头像预览：</span></div>
                 <div class="input_info">
-                	<img src="${sessionScope.admin.imgURL }" alt="账号头像"  height="50px" width="50px"/>
+                	<img src="${sessionScope.admin.imgURL }" alt="账号头像预览"  height="50px" width="50px"/>
                 </div>
                 <div class="text_info clearfix"><span>更改头像：</span></div>
                 <div class="input_info">
                     <!-- <input id="img" name="img" type="file" class="width200" value="" /> -->
-                    <input type="file" name="img" id="img" style="WIDTH: 173PX;padding: 0px;height:21px;margin-top:10px" >
+                    <input type="file" name="img" id="img" style="WIDTH: 173PX;padding: 0px;height:21px;margin-top:10px" onchange="previewImg(this)">
                 </div>
                 <div class="button_info clearfix">
                     <input type="button" value="保存" class="btn_save" onclick="showResult();" />

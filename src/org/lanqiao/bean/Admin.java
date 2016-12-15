@@ -48,20 +48,20 @@ public class Admin {
 	 */
 	private List<Integer> powers;
 	
-	private MultipartFile img;  //头像
+	//private MultipartFile img;  //头像
 	
 	/**
 	 * 头像文件地址
 	 */
 	private String imgURL;
 	
-	public MultipartFile getImg() {
-		return img;
-	}
-
-	public void setImg(MultipartFile img) {
-		this.img = img;
-	}
+//	public MultipartFile getImg() {
+//		return img;
+//	}
+//
+//	public void setImg(MultipartFile img) {
+//		this.img = img;
+//	}
 
 	public String getImgURL() {
 		return imgURL;

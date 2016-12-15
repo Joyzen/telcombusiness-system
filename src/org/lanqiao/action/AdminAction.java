@@ -125,20 +125,24 @@ public class AdminAction
 	 */
 	@RequestMapping("/doInfo")
 	public void doDodifyInfo(Admin admin,
+							   @RequestParam(name="img",required=false)MultipartFile img,
 							   HttpServletRequest request,
 							   PrintWriter out) {
 		/***************头像文件存入目录************************/
 		String fileName = "";
-		if(admin.getImg()!=null){
+		//if(admin.getImg()!=null){
+		if(img!=null){
 			String path = request.getSession().getServletContext().getRealPath("img");  
-			fileName = admin.getImg().getOriginalFilename();  
+			//fileName = admin.getImg().getOriginalFilename();  
+			fileName = img.getOriginalFilename();  
 			File targetFile = new File(path, fileName);  
 			if(!targetFile.exists()){  
 				targetFile.mkdirs();  
 			}  
 			//保存  
 			try {  
-				admin.getImg().transferTo(targetFile);  
+				//admin.getImg().transferTo(targetFile);  
+				img.transferTo(targetFile);  
 			} catch (Exception e) {  
 				e.printStackTrace();  
 			}  
@@ -146,7 +150,8 @@ public class AdminAction
 		/*****************************************************/
 		int adminId = ((Admin)request.getSession().getAttribute("admin")).getAdminId();
 		admin.setAdminId(adminId);
-		if(admin.getImg()==null){
+		//if(admin.getImg()==null){
+			if(img==null){
 			admin.setImgURL("");
 		}else{
 			admin.setImgURL(request.getContextPath()+"/img/"+fileName);
